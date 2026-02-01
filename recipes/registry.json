@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-02-01",
+  "recipes": [
+    {
+      "name": "llm-observability-starter",
+      "title": "LLM Observability: Structured Tracing",
+      "category": "llmops",
+      "estimated_hours": "0.5",
+      "version": "0.1.0",
+      "files": [
+        "tasks.yaml",
+        "rubric.yaml",
+        "README.md",
+        "scaffold/agent.mjs",
+        "scaffold/analyze.mjs"
+      ]
+    },
+    {
+      "name": "rag-starter",
+      "title": "RAG Starter: In-Memory TF-IDF Search",
+      "category": "rag",
+      "estimated_hours": "0.5",
+      "version": "0.1.0",
+      "files": [
+        "tasks.yaml",
+        "rubric.yaml",
+        "README.md",
+        "scaffold/docs.json",
+        "scaffold/queries.json",
+        "scaffold/index.mjs"
+      ]
+    },
+    {
+      "name": "serving-latency",
+      "title": "Serving Latency Benchmark",
+      "category": "serving",
+      "estimated_hours": "0.5",
+      "version": "0.1.0",
+      "files": [
+        "tasks.yaml",
+        "rubric.yaml",
+        "README.md",
+        "scaffold/server.mjs",
+        "scaffold/bench.mjs"
+      ]
+    }
+  ]
+}
