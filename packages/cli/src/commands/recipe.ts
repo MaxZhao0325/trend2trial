@@ -8,7 +8,7 @@ import {
   findLocalRecipesDir,
   resolveRecipeList,
   resolveRecipeDir,
-} from "@trend2trial/core";
+} from "trend2trial-core";
 
 export async function recipeList(root: string | undefined): Promise<void> {
   const localRecipesDir = findLocalRecipesDir(root);

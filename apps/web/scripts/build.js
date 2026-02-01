@@ -437,30 +437,22 @@ async function build() {
 
     <section class="cli-section">
       <h3>Quick Start</h3>
-      <pre><span class="comment"># Clone and build</span>
-<span class="cmd">git clone https://github.com/zhaohanzhang/trend2trial.git</span>
-<span class="cmd">cd trend2trial</span>
-<span class="cmd">pnpm install &amp;&amp; pnpm build</span>
-
-<span class="comment"># List available recipes</span>
-<span class="cmd">node packages/cli/dist/main.js recipe list</span>
+      <pre><span class="comment"># No clone needed — run directly via npx</span>
+<span class="cmd">npx trend2trial recipe list</span>
 
 <span class="comment"># Initialize and run a recipe</span>
-<span class="cmd">node packages/cli/dist/main.js recipe init serving-latency ./my-trial</span>
-<span class="cmd">node packages/cli/dist/main.js recipe run ./my-trial</span>
+<span class="cmd">npx trend2trial recipe init serving-latency ./my-trial</span>
+<span class="cmd">npx trend2trial recipe run ./my-trial</span>
 
 <span class="comment"># View the generated report</span>
 <span class="cmd">cat ./my-trial/REPORT.md</span></pre>
-      <p style="margin-top:1rem;font-size:0.82rem;color:#888;">
-        <strong>Coming soon:</strong> <code style="color:#64ffda;">npx trend2trial recipe list</code> — no clone needed.
-      </p>
     </section>
   </main>
 
   <footer class="footer">
     Trend-to-Trial &mdash; Track AI Infra trends, run hands-on trials.
     <br>
-    <a href="https://github.com/zhaohanzhang/trend2trial">GitHub</a>
+    <a href="https://github.com/MaxZhao0325/trend2trial">GitHub</a>
   </footer>
 </body>
 </html>`;

@@ -12,7 +12,7 @@ export interface FetcherOptions {
 
 export function getDefaultFetcherOptions(): FetcherOptions {
   return {
-    repo: process.env.T2T_REPO ?? "zhaohanzhang/trend2trial",
+    repo: process.env.T2T_REPO ?? "MaxZhao0325/trend2trial",
     ref: process.env.T2T_REF ?? "main",
     cacheDir:
       process.env.T2T_CACHE_DIR ??

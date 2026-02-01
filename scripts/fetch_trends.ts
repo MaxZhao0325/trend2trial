@@ -1,6 +1,6 @@
 import { writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-import { fetchTrends, renderTrendCardMarkdown } from "@trend2trial/core";
+import { fetchTrends, renderTrendCardMarkdown } from "trend2trial-core";
 
 const ROOT = new URL("..", import.meta.url).pathname;
 const DATA_DIR = join(ROOT, "data");

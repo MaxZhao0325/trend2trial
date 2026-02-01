@@ -5,7 +5,7 @@
   "description": "AI Infra trend radar + runnable trial recipes (Serving, RAG, LLMOps)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zhaohanzhang/trend2trial.git",
+    "url": "https://github.com/MaxZhao0325/trend2trial.git",
     "directory": "packages/cli"
   },
   "keywords": ["ai-infra", "serving", "rag", "llmops", "benchmark", "recipe"],
@@ -18,7 +18,7 @@
     "start": "node --enable-source-maps ./dist/main.js"
   },
   "dependencies": {
-    "@trend2trial/core": "workspace:*"
+    "trend2trial-core": "workspace:*"
   },
   "files": ["dist", "bin"]
 }

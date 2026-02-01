@@ -38,13 +38,13 @@ importers:
 
   apps/web:
     dependencies:
-      '@trend2trial/core':
+      trend2trial-core:
         specifier: workspace:*
         version: link:../../packages/core
 
   packages/cli:
     dependencies:
-      '@trend2trial/core':
+      trend2trial-core:
         specifier: workspace:*
         version: link:../core
 

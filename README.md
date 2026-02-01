@@ -7,23 +7,22 @@ Track the latest trends in AI Serving, RAG, and LLMOps — each paired with a ru
 ## Quickstart
 
 ```bash
-git clone https://github.com/zhaohanzhang/trend2trial.git
-cd trend2trial
-pnpm install
-pnpm build
-
-# List available recipes
-node packages/cli/dist/main.js recipe list
-
-# Initialize and run a recipe
-node packages/cli/dist/main.js recipe init serving-latency ./my-trial
-node packages/cli/dist/main.js recipe run ./my-trial
-
-# View the generated report
+# No clone needed — run directly via npx
+npx trend2trial recipe list
+npx trend2trial recipe init serving-latency ./my-trial
+npx trend2trial recipe run ./my-trial
 cat ./my-trial/REPORT.md
 ```
 
-> **Coming soon:** `npx trend2trial recipe list` — run directly without cloning. The CLI will fetch recipes from GitHub automatically. See [Distribution](#distribution) below.
+### Development Setup (contributors)
+
+```bash
+git clone https://github.com/MaxZhao0325/trend2trial.git
+cd trend2trial
+pnpm install
+pnpm build
+node packages/cli/dist/main.js recipe list
+```
 
 ## Architecture
 
@@ -70,14 +69,14 @@ Each recipe uses only Node.js built-ins — no additional dependencies needed.
 
 The CLI is designed to work in two modes:
 
-1. **Local mode** (current): Clone the repo, build, and run. Recipes are read directly from the local `recipes/` directory.
-2. **Remote mode** (planned): Once the CLI is published to npm, users run `npx trend2trial recipe list`. The CLI fetches `recipes/registry.json` from GitHub and downloads recipe files on demand, caching them at `~/.trend2trial/cache/`.
+1. **Remote mode** (default): Users run `npx trend2trial recipe list`. The CLI fetches `recipes/registry.json` from GitHub and downloads recipe files on demand, caching them at `~/.trend2trial/cache/`.
+2. **Local mode**: Clone the repo, build, and run. Recipes are read directly from the local `recipes/` directory.
 
-The remote fetching infrastructure is implemented — publishing to npm is the remaining step. Environment variables for customization:
+Environment variables for customization:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `T2T_REPO` | `zhaohanzhang/trend2trial` | GitHub repo for remote fetching |
+| `T2T_REPO` | `MaxZhao0325/trend2trial` | GitHub repo for remote fetching |
 | `T2T_REF` | `main` | Git ref to fetch from |
 | `T2T_CACHE_DIR` | `~/.trend2trial/cache` | Local cache directory |
 

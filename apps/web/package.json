@@ -6,7 +6,7 @@
     "build": "node --enable-source-maps ./scripts/build.js"
   },
   "dependencies": {
-    "@trend2trial/core": "workspace:*"
+    "trend2trial-core": "workspace:*"
   },
   "files": ["dist"]
 }

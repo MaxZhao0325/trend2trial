@@ -1,5 +1,5 @@
 {
-  "name": "@trend2trial/core",
+  "name": "trend2trial-core",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",

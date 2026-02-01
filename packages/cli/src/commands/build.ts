@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { loadTrendsFromFile, renderCardToMarkdown, renderCardsToList } from "@trend2trial/core";
+import { loadTrendsFromFile, renderCardToMarkdown, renderCardsToList } from "trend2trial-core";
 
 export async function buildCards(inputPath: string, outputDir: string): Promise<void> {
   const absInput = resolve(inputPath);
