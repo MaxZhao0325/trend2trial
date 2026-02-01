@@ -1,0 +1,30 @@
+[
+  {
+    "query": "How does vLLM improve inference throughput?",
+    "expected_doc_id": "doc-vllm"
+  },
+  {
+    "query": "What is retrieval augmented generation?",
+    "expected_doc_id": "doc-rag"
+  },
+  {
+    "query": "How to reduce model size with quantization?",
+    "expected_doc_id": "doc-quantization"
+  },
+  {
+    "query": "How to monitor and trace LLM applications?",
+    "expected_doc_id": "doc-observability"
+  },
+  {
+    "query": "How does LoRA fine-tuning work?",
+    "expected_doc_id": "doc-finetuning"
+  },
+  {
+    "query": "What are text embedding models used for?",
+    "expected_doc_id": "doc-embedding"
+  },
+  {
+    "query": "How to deploy ML models on Kubernetes?",
+    "expected_doc_id": "doc-kubernetes"
+  }
+]

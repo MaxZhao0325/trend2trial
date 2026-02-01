@@ -1,0 +1,18 @@
+metrics:
+  - name: p95_latency_ms
+    description: "95th percentile latency in milliseconds"
+    unit: ms
+    expected: "< 500"
+  - name: p99_latency_ms
+    description: "99th percentile latency in milliseconds"
+    unit: ms
+    expected: "< 600"
+  - name: throughput_rps
+    description: "Requests per second"
+    unit: rps
+    expected: "> 5"
+  - name: error_rate
+    description: "Percentage of failed requests"
+    unit: "%"
+    expected: "0"
+pass_criteria: "p95 < 500ms, error_rate == 0%"

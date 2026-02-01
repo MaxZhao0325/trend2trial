@@ -1,0 +1,13 @@
+name: rag-starter
+title: "RAG Starter: In-Memory TF-IDF Search"
+category: rag
+estimated_hours: "0.5"
+tasks:
+  - name: build-index
+    description: "Build a TF-IDF index from sample documents"
+    command: "node scaffold/index.mjs build"
+    timeout_seconds: 15
+  - name: run-queries
+    description: "Run test queries and evaluate hit rate"
+    command: "node scaffold/index.mjs query"
+    timeout_seconds: 15

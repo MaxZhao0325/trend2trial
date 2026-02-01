@@ -1,0 +1,13 @@
+name: llm-observability-starter
+title: "LLM Observability: Structured Tracing"
+category: llmops
+estimated_hours: "0.5"
+tasks:
+  - name: run-agent
+    description: "Run a mock LLM agent that produces structured traces"
+    command: "node scaffold/agent.mjs"
+    timeout_seconds: 15
+  - name: analyze-traces
+    description: "Analyze traces for completeness and coverage"
+    command: "node scaffold/analyze.mjs"
+    timeout_seconds: 15

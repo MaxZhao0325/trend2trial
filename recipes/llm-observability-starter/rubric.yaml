@@ -1,0 +1,17 @@
+metrics:
+  - name: trace_count
+    description: "Total number of traces produced"
+    unit: count
+    expected: ">= 3"
+  - name: span_coverage_pct
+    description: "Percentage of spans with all required fields"
+    unit: "%"
+    expected: ">= 90"
+  - name: error_capture_count
+    description: "Number of spans that captured errors"
+    unit: count
+    expected: ">= 1"
+  - name: p95_duration_ms
+    description: "95th percentile span duration"
+    unit: ms
+pass_criteria: "trace_count >= 3 and span_coverage_pct >= 90%"

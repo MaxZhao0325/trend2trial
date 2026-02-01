@@ -1,0 +1,26 @@
+{
+  "name": "trend2trial",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "dev": "pnpm --filter cli start",
+    "fetch": "tsx scripts/fetch_trends.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^25.1.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.3.0",
+    "typescript": "^5.5.0",
+    "typescript-eslint": "^8.0.0",
+    "tsx": "^4.19.0",
+    "vitest": "^2.0.0",
+    "@types/js-yaml": "^4.0.9"
+  }
+}

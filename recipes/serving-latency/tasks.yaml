@@ -1,0 +1,17 @@
+name: serving-latency
+title: "Serving Latency Benchmark"
+category: serving
+estimated_hours: "0.5"
+tasks:
+  - name: start-server
+    description: "Start a mock HTTP server with random latency"
+    command: "node scaffold/server.mjs &"
+    timeout_seconds: 5
+  - name: run-benchmark
+    description: "Send N requests and collect latency metrics"
+    command: "node scaffold/bench.mjs"
+    timeout_seconds: 30
+  - name: stop-server
+    description: "Stop the mock server"
+    command: "kill $(cat server.pid) 2>/dev/null; rm -f server.pid"
+    timeout_seconds: 5

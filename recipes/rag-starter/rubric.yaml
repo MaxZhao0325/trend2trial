@@ -1,0 +1,18 @@
+metrics:
+  - name: hit_rate_at_5
+    description: "Fraction of queries where the expected doc is in top-5 results"
+    unit: ratio
+    expected: "> 0.6"
+  - name: avg_latency_ms
+    description: "Average query latency in milliseconds"
+    unit: ms
+    expected: "< 50"
+  - name: index_size_docs
+    description: "Number of documents indexed"
+    unit: count
+    expected: ">= 5"
+  - name: failed_queries
+    description: "Number of queries that threw errors"
+    unit: count
+    expected: "0"
+pass_criteria: "hit_rate_at_5 > 0.6 and failed_queries == 0"

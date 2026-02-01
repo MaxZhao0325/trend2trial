@@ -1,0 +1,12 @@
+{
+  "name": "@trend2trial/web",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "node --enable-source-maps ./scripts/build.js"
+  },
+  "dependencies": {
+    "@trend2trial/core": "workspace:*"
+  },
+  "files": ["dist"]
+}

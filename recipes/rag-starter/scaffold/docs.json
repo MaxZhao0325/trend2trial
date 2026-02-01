@@ -1,0 +1,37 @@
+[
+  {
+    "id": "doc-vllm",
+    "title": "vLLM High-Throughput Serving",
+    "content": "vLLM uses PagedAttention to manage KV cache memory efficiently, achieving 2-4x throughput improvement for LLM serving compared to HuggingFace TGI. It supports continuous batching and tensor parallelism for distributed inference."
+  },
+  {
+    "id": "doc-rag",
+    "title": "Retrieval-Augmented Generation Overview",
+    "content": "RAG combines a retriever module with a language model generator. Documents are embedded into vectors, stored in a vector database, and retrieved at query time to provide context for the LLM, reducing hallucinations."
+  },
+  {
+    "id": "doc-quantization",
+    "title": "Model Quantization Techniques",
+    "content": "Quantization reduces model size by converting weights from FP32 to lower precision formats like INT8 or INT4. Popular methods include GPTQ, AWQ, and GGML. This enables running large models on consumer hardware."
+  },
+  {
+    "id": "doc-observability",
+    "title": "LLM Observability and Tracing",
+    "content": "Observability for LLM applications involves structured tracing of call chains, prompt logging, latency tracking, and token usage monitoring. Tools like LangSmith and Phoenix provide dashboards for debugging LLM pipelines."
+  },
+  {
+    "id": "doc-finetuning",
+    "title": "LoRA Fine-Tuning Guide",
+    "content": "Low-Rank Adaptation (LoRA) enables efficient fine-tuning by freezing base model weights and training small rank-decomposition matrices. It dramatically reduces memory requirements and training time compared to full fine-tuning."
+  },
+  {
+    "id": "doc-embedding",
+    "title": "Text Embedding Models",
+    "content": "Embedding models convert text into dense vector representations for semantic search. Popular models include OpenAI text-embedding-ada-002, sentence-transformers, and instructor-xl. Vector dimensions typically range from 384 to 1536."
+  },
+  {
+    "id": "doc-kubernetes",
+    "title": "Kubernetes for ML Workloads",
+    "content": "Kubernetes orchestrates containerized ML workloads with GPU scheduling, auto-scaling, and resource management. Tools like KServe and Seldon Core simplify model serving deployment on Kubernetes clusters."
+  }
+]

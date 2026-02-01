@@ -1,0 +1,67 @@
+[
+  {
+    "id": "vllm-paged-attention",
+    "title": "vLLM & Paged Attention for High-Throughput Serving",
+    "summary": "vLLM uses PagedAttention to manage KV cache efficiently, achieving 2-4x throughput improvement over HuggingFace TGI for LLM serving. It has become the de facto standard for self-hosted LLM inference.",
+    "category": "serving",
+    "sources": [
+      { "title": "vLLM GitHub", "url": "https://github.com/vllm-project/vllm", "type": "repo" },
+      { "title": "PagedAttention Paper", "url": "https://arxiv.org/abs/2309.06180", "type": "paper" }
+    ],
+    "date": "2025-01-15",
+    "relevanceScore": 92,
+    "tags": ["inference", "serving", "kv-cache", "throughput"]
+  },
+  {
+    "id": "rag-evaluation-ragas",
+    "title": "RAGAS: Automated RAG Pipeline Evaluation",
+    "summary": "RAGAS provides reference-free evaluation metrics for RAG pipelines — faithfulness, answer relevancy, context precision. It is becoming the standard framework for measuring RAG quality without manual labeling.",
+    "category": "rag",
+    "sources": [
+      { "title": "RAGAS GitHub", "url": "https://github.com/explodinggradients/ragas", "type": "repo" },
+      { "title": "RAGAS Paper", "url": "https://arxiv.org/abs/2309.15217", "type": "paper" }
+    ],
+    "date": "2025-02-01",
+    "relevanceScore": 88,
+    "tags": ["rag", "evaluation", "metrics", "faithfulness"]
+  },
+  {
+    "id": "llm-gateway-patterns",
+    "title": "LLM Gateway: Unified Proxy for Multi-Provider LLM Access",
+    "summary": "LLM gateways (LiteLLM, Portkey, custom) sit between your app and LLM providers, adding rate limiting, cost tracking, fallback routing, and observability. Essential for production LLMOps.",
+    "category": "llmops",
+    "sources": [
+      { "title": "LiteLLM GitHub", "url": "https://github.com/BerriAI/litellm", "type": "repo" },
+      { "title": "LLM Gateway Pattern Blog", "url": "https://www.gateway.ai/blog/llm-gateway", "type": "blog" }
+    ],
+    "date": "2025-01-20",
+    "relevanceScore": 85,
+    "tags": ["llmops", "gateway", "proxy", "cost-tracking"]
+  },
+  {
+    "id": "sglang-structured-generation",
+    "title": "SGLang: Structured Generation Language for LLMs",
+    "summary": "SGLang provides a frontend language for structured LLM generation with RadixAttention for KV cache reuse. Achieves up to 5x speedup for complex prompting patterns like tree-of-thought and multi-turn.",
+    "category": "serving",
+    "sources": [
+      { "title": "SGLang GitHub", "url": "https://github.com/sgl-project/sglang", "type": "repo" },
+      { "title": "SGLang Paper", "url": "https://arxiv.org/abs/2312.07104", "type": "paper" }
+    ],
+    "date": "2025-03-01",
+    "relevanceScore": 82,
+    "tags": ["serving", "structured-output", "radix-attention"]
+  },
+  {
+    "id": "chunking-strategies-comparison",
+    "title": "Chunking Strategies: Semantic vs. Recursive vs. Agentic",
+    "summary": "The choice of text chunking strategy significantly impacts RAG retrieval quality. Semantic chunking using embeddings outperforms fixed-size approaches, while agentic chunking shows promise for complex documents.",
+    "category": "rag",
+    "sources": [
+      { "title": "Chunking Best Practices", "url": "https://www.pinecone.io/learn/chunking-strategies/", "type": "blog" },
+      { "title": "LangChain Text Splitters", "url": "https://github.com/langchain-ai/langchain", "type": "repo" }
+    ],
+    "date": "2025-02-15",
+    "relevanceScore": 78,
+    "tags": ["rag", "chunking", "embeddings", "retrieval"]
+  }
+]
