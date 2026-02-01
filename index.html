@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trend-to-Trial — AI Infra Trend Radar</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #555;
+      --text-muted: #888;
+      --border: #e8e8e8;
+      --accent: #4361ee;
+      --serving: #1565c0;
+      --serving-bg: #e3f2fd;
+      --rag: #7b1fa2;
+      --rag-bg: #f3e5f5;
+      --llmops: #e65100;
+      --llmops-bg: #fff3e0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #fff;
+      padding: 3rem 1rem 2.5rem;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .header .tagline {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.7;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Section */
+    .section {
+      margin-top: 2.5rem;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .section-header h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+    .section-header .section-count {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Trends Table */
+    .trends-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .trends-table thead th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .trends-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .trends-table tr:last-child td { border-bottom: none; }
+    .score-cell { width: 50px; text-align: center; }
+    .score {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: var(--bg);
+      color: var(--accent);
+    }
+    .trend-title { font-weight: 600; font-size: 1rem; margin-bottom: 0.3rem; }
+    .trend-summary { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0.4rem; line-height: 1.5; }
+    .trend-sources a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.8rem;
+    }
+    .trend-sources a:hover { text-decoration: underline; }
+    .date-cell { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .badge-serving { background: var(--serving-bg); color: var(--serving); }
+    .badge-rag { background: var(--rag-bg); color: var(--rag); }
+    .badge-llmops { background: var(--llmops-bg); color: var(--llmops); }
+
+    /* Recipe Cards Grid */
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .recipe-card {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s;
+    }
+    .recipe-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .recipe-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .recipe-hours {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: var(--bg);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .recipe-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .recipe-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      flex: 1;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+    .recipe-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .recipe-meta code {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.75rem;
+      background: var(--bg);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* CLI Section */
+    .cli-section {
+      margin-top: 2.5rem;
+      margin-bottom: 3rem;
+      background: #1a1a2e;
+      border-radius: 8px;
+      padding: 1.5rem;
+      color: #e0e0e0;
+    }
+    .cli-section h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #888;
+      margin-bottom: 1rem;
+    }
+    .cli-section pre {
+      font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 0.85rem;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+    .cli-section .comment { color: #666; }
+    .cli-section .cmd { color: #64ffda; }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      .header h1 { font-size: 1.6rem; }
+      .trends-table, .trends-table thead, .trends-table tbody, .trends-table th, .trends-table td, .trends-table tr { display: block; }
+      .trends-table thead { display: none; }
+      .trends-table td { padding: 0.5rem 1rem; border: none; }
+      .trends-table tr { border-bottom: 1px solid var(--border); padding: 0.75rem 0; }
+      .score-cell { text-align: left; }
+      .recipe-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>Trend-to-Trial</h1>
+    <p class="tagline">AI Infra Trend Radar + Trial Playground</p>
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-number">5</span>
+        <span class="stat-label">Trends</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">3</span>
+        <span class="stat-label">Recipes</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">3</span>
+        <span class="stat-label">Categories</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <div class="section-header">
+        <h2>Trends</h2>
+        <span class="section-count">Serving · RAG · LLMOps</span>
+      </div>
+      <table class="trends-table">
+        <thead>
+          <tr>
+            <th>Score</th>
+            <th>Trend</th>
+            <th>Category</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+      <tr>
+        <td class="score-cell"><div class="score">92</div></td>
+        <td>
+          <div class="trend-title">vLLM &amp; Paged Attention for High-Throughput Serving</div>
+          <p class="trend-summary">vLLM uses PagedAttention to manage KV cache efficiently, achieving 2-4x throughput improvement over HuggingFace TGI for LLM serving. It has become the de facto standard for self-hosted LLM inference.</p>
+          <div class="trend-sources"><a href="https://github.com/vllm-project/vllm" target="_blank" rel="noopener">vLLM GitHub</a> · <a href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener">PagedAttention Paper</a></div>
+        </td>
+        <td><span class="badge badge-serving">serving</span></td>
+        <td class="date-cell">2025-01-15</td>
+      </tr>
+
+      <tr>
+        <td class="score-cell"><div class="score">88</div></td>
+        <td>
+          <div class="trend-title">RAGAS: Automated RAG Pipeline Evaluation</div>
+          <p class="trend-summary">RAGAS provides reference-free evaluation metrics for RAG pipelines — faithfulness, answer relevancy, context precision. It is becoming the standard framework for measuring RAG quality without manual labeling.</p>
+          <div class="trend-sources"><a href="https://github.com/explodinggradients/ragas" target="_blank" rel="noopener">RAGAS GitHub</a> · <a href="https://arxiv.org/abs/2309.15217" target="_blank" rel="noopener">RAGAS Paper</a></div>
+        </td>
+        <td><span class="badge badge-rag">rag</span></td>
+        <td class="date-cell">2025-02-01</td>
+      </tr>
+
+      <tr>
+        <td class="score-cell"><div class="score">85</div></td>
+        <td>
+          <div class="trend-title">LLM Gateway: Unified Proxy for Multi-Provider LLM Access</div>
+          <p class="trend-summary">LLM gateways (LiteLLM, Portkey, custom) sit between your app and LLM providers, adding rate limiting, cost tracking, fallback routing, and observability. Essential for production LLMOps.</p>
+          <div class="trend-sources"><a href="https://github.com/BerriAI/litellm" target="_blank" rel="noopener">LiteLLM GitHub</a> · <a href="https://www.gateway.ai/blog/llm-gateway" target="_blank" rel="noopener">LLM Gateway Pattern Blog</a></div>
+        </td>
+        <td><span class="badge badge-llmops">llmops</span></td>
+        <td class="date-cell">2025-01-20</td>
+      </tr>
+
+      <tr>
+        <td class="score-cell"><div class="score">82</div></td>
+        <td>
+          <div class="trend-title">SGLang: Structured Generation Language for LLMs</div>
+          <p class="trend-summary">SGLang provides a frontend language for structured LLM generation with RadixAttention for KV cache reuse. Achieves up to 5x speedup for complex prompting patterns like tree-of-thought and multi-turn.</p>
+          <div class="trend-sources"><a href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener">SGLang GitHub</a> · <a href="https://arxiv.org/abs/2312.07104" target="_blank" rel="noopener">SGLang Paper</a></div>
+        </td>
+        <td><span class="badge badge-serving">serving</span></td>
+        <td class="date-cell">2025-03-01</td>
+      </tr>
+
+      <tr>
+        <td class="score-cell"><div class="score">78</div></td>
+        <td>
+          <div class="trend-title">Chunking Strategies: Semantic vs. Recursive vs. Agentic</div>
+          <p class="trend-summary">The choice of text chunking strategy significantly impacts RAG retrieval quality. Semantic chunking using embeddings outperforms fixed-size approaches, while agentic chunking shows promise for complex documents.</p>
+          <div class="trend-sources"><a href="https://www.pinecone.io/learn/chunking-strategies/" target="_blank" rel="noopener">Chunking Best Practices</a> · <a href="https://github.com/langchain-ai/langchain" target="_blank" rel="noopener">LangChain Text Splitters</a></div>
+        </td>
+        <td><span class="badge badge-rag">rag</span></td>
+        <td class="date-cell">2025-02-15</td>
+      </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Recipes</h2>
+        <span class="section-count">3 hands-on trials</span>
+      </div>
+      <div class="recipe-grid">
+        
+      <div class="recipe-card">
+        <div class="recipe-header">
+          <span class="badge badge-llmops">llmops</span>
+          <span class="recipe-hours">0.5h</span>
+        </div>
+        <h3 class="recipe-title">LLM Observability: Structured Tracing</h3>
+        <p class="recipe-desc">Build a mock LLM call chain with structured JSON tracing and analyze trace completeness.</p>
+        <div class="recipe-meta">
+          <span>2 steps</span>
+          <code>recipe init llm-observability-starter</code>
+        </div>
+      </div>
+
+      <div class="recipe-card">
+        <div class="recipe-header">
+          <span class="badge badge-rag">rag</span>
+          <span class="recipe-hours">0.5h</span>
+        </div>
+        <h3 class="recipe-title">RAG Starter: In-Memory TF-IDF Search</h3>
+        <p class="recipe-desc">Build a minimal retrieval-augmented generation pipeline using TF-IDF for document retrieval.</p>
+        <div class="recipe-meta">
+          <span>2 steps</span>
+          <code>recipe init rag-starter</code>
+        </div>
+      </div>
+
+      <div class="recipe-card">
+        <div class="recipe-header">
+          <span class="badge badge-serving">serving</span>
+          <span class="recipe-hours">0.5h</span>
+        </div>
+        <h3 class="recipe-title">Serving Latency Benchmark</h3>
+        <p class="recipe-desc">Measure HTTP serving latency with a mock server that introduces random delays.</p>
+        <div class="recipe-meta">
+          <span>3 steps</span>
+          <code>recipe init serving-latency</code>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <section class="cli-section">
+      <h3>Quick Start</h3>
+      <pre><span class="comment"># No clone needed — run directly via npx</span>
+<span class="cmd">npx trend2trial recipe list</span>
+
+<span class="comment"># Initialize and run a recipe</span>
+<span class="cmd">npx trend2trial recipe init serving-latency ./my-trial</span>
+<span class="cmd">npx trend2trial recipe run ./my-trial</span>
+
+<span class="comment"># View the generated report</span>
+<span class="cmd">cat ./my-trial/REPORT.md</span></pre>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Trend-to-Trial &mdash; Track AI Infra trends, run hands-on trials.
+    <br>
+    <a href="https://github.com/MaxZhao0325/trend2trial">GitHub</a>
+  </footer>
+</body>
+</html>
