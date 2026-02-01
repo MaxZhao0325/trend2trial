@@ -1,0 +1,24 @@
+{
+  "name": "trend2trial",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "AI Infra trend radar + runnable trial recipes (Serving, RAG, LLMOps)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhaohanzhang/trend2trial.git",
+    "directory": "packages/cli"
+  },
+  "keywords": ["ai-infra", "serving", "rag", "llmops", "benchmark", "recipe"],
+  "license": "MIT",
+  "bin": {
+    "trend2trial": "./bin/trend2trial.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node --enable-source-maps ./dist/main.js"
+  },
+  "dependencies": {
+    "@trend2trial/core": "workspace:*"
+  },
+  "files": ["dist", "bin"]
+}
