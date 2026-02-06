@@ -1,74 +1,148 @@
 # Trend-to-Trial — Data Model
 
-## TrendCard
+## TrendItem (pipeline internal)
+
+Raw item from a trend adapter before conversion to TrendCard.
 
 ```typescript
-interface TrendCard {
-  id: string;                          // kebab-case slug, e.g. "vllm-paged-attention"
-  title: string;                       // Human-readable title
-  summary: string;                     // 2-4 sentence summary of the trend
-  category: "serving" | "rag" | "llmops";
-  sources: Source[];                   // >= 1 source
-  date: string;                        // ISO 8601 date (YYYY-MM-DD)
-  relevanceScore: number;              // 0-100, higher = more relevant
-  tags: string[];                      // Free-form tags for future filtering
+interface TrendItem {
+  title: string;
+  url: string;
+  source: string;          // Adapter name, e.g. "rss", "hackernews"
+  tags: string[];
+  score: number;           // Raw score from adapter
+  publishedAt: string;     // ISO 8601 date
+  summary: string;
+  trialRecipeSuggestion: string;
 }
+```
+
+## TrendCard (public model)
+
+Validated trend card stored in JSON files and rendered on the web.
+
+```typescript
+type Category = "serving" | "rag" | "llmops";
+type SourceType = "paper" | "repo" | "blog" | "release" | "video";
 
 interface Source {
   title: string;
-  url: string;                         // Must be a valid URL
-  type: "paper" | "repo" | "blog" | "release" | "video";
+  url: string;             // Must start with "http"
+  type: SourceType;
+}
+
+interface TrendCard {
+  id: string;              // kebab-case slug, e.g. "vllm-paged-attention"
+  title: string;
+  summary: string;         // 2-4 sentence summary
+  category: Category;
+  sources: Source[];        // >= 1 source
+  date: string;            // ISO 8601 date (YYYY-MM-DD)
+  relevanceScore: number;  // 0-100, higher = more relevant
+  tags: string[];
 }
 ```
 
 ## Recipe
 
+Defined by `tasks.yaml` + `rubric.yaml` in each recipe directory.
+
 ```typescript
-interface Recipe {
-  id: string;                          // Directory name under recipes/
-  name: string;                        // Human-readable name
-  category: "serving" | "rag" | "llmops";
-  description: string;
-  prerequisites: string[];             // e.g. ["Python 3.10+", "Docker"]
-  tasks: Task[];
-  rubric: RubricItem[];
-}
-
-interface Task {
+interface TaskStep {
   name: string;
-  command: string;                     // Shell command to execute
   description: string;
-  timeout?: number;                    // Max seconds (default: 300)
+  command: string;         // Shell command to execute
+  timeout_seconds?: number; // Max seconds (default: 60)
 }
 
-interface RubricItem {
-  metric: string;                      // e.g. "throughput_tps"
+interface RubricMetric {
+  name: string;
   description: string;
-  unit: string;                        // e.g. "tokens/sec"
-  target?: string;                     // Optional target value
+  unit: string;            // e.g. "ms", "rps", "%"
+  expected?: string;       // Optional target value
+}
+
+interface Rubric {
+  metrics: RubricMetric[];
+  pass_criteria: string;   // Human-readable pass condition
+}
+
+interface RecipeMeta {
+  name: string;            // Directory name under recipes/
+  title: string;           // Human-readable title
+  category: Category;
+  estimated_hours: string;
+}
+
+interface Recipe extends RecipeMeta {
+  tasks: TaskStep[];
+  rubric: Rubric;
 }
 ```
 
-## Report (output)
+## Registry
+
+Recipe registry at `recipes/registry.json` for remote fetching.
 
 ```typescript
-interface Report {
-  recipeId: string;
-  timestamp: string;                   // ISO 8601
-  environment: {
-    os: string;
-    nodeVersion: string;
-    arch: string;
-  };
-  results: Record<string, string | number>;  // metric → value
-  steps: StepResult[];
-  command: string;                     // Reproducible CLI command
+interface ChecksummedFile {
+  path: string;
+  sha256: string;
+}
+
+type RegistryFile = string | ChecksummedFile;
+
+interface RegistryEntry {
+  name: string;
+  title: string;
+  category: Category;
+  estimated_hours: string;
+  version: string;         // Semantic version, e.g. "0.1.0"
+  files: RegistryFile[];   // Files to download (string = legacy, object = checksummed)
+}
+
+interface Registry {
+  schemaVersion: number;   // Currently 1
+  updatedAt: string;       // ISO 8601 date
+  recipes: RegistryEntry[];
+}
+```
+
+## RunOptions & RunResult
+
+Execution options and results from `runRecipe()`.
+
+```typescript
+interface RunOptions {
+  confirmed: boolean;      // Must be true to execute
+  failFast?: boolean;      // Stop on first failure (default: true)
 }
 
 interface StepResult {
   name: string;
-  status: "passed" | "failed" | "skipped";
+  exitCode: number;        // 0 = success
+  stdout: string;
+  stderr: string;
   durationMs: number;
-  output?: string;
+}
+
+interface RunResult {
+  recipe: string;          // Recipe name
+  steps: StepResult[];
+  metrics: Record<string, unknown>;  // From metrics.json (optional)
+  startedAt: string;       // ISO 8601
+  finishedAt: string;      // ISO 8601
+}
+```
+
+## TrendsEnvelope
+
+Versioned JSON envelope written by `writeTrends()`.
+
+```typescript
+interface TrendsEnvelope {
+  schemaVersion: number;   // Currently 1
+  generatedAt: string;     // ISO 8601
+  cards: TrendCard[];
 }
 ```

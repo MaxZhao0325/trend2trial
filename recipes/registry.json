@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-02-01",
+  "updatedAt": "2026-02-05",
   "recipes": [
     {
       "name": "llm-observability-starter",
@@ -9,11 +9,11 @@
       "estimated_hours": "0.5",
       "version": "0.1.0",
       "files": [
-        "tasks.yaml",
-        "rubric.yaml",
-        "README.md",
-        "scaffold/agent.mjs",
-        "scaffold/analyze.mjs"
+        { "path": "tasks.yaml", "sha256": "a303b429ba537775cc077a17a7a1ac81c92e8762098510879dd5cd307e564b6d" },
+        { "path": "rubric.yaml", "sha256": "43f5ddfdb4e6335fcb06dbbe01f726c4a919720172151f604cdafc2f3f6c1e47" },
+        { "path": "README.md", "sha256": "1c8819f7b721d0eebc078c21b8e31b077f2574e6d826fb85bb6f1893119c61c8" },
+        { "path": "scaffold/agent.mjs", "sha256": "84a134b2280f0cd942b21c854712b590fb4ac9d38e51e1451fde122395e7d46c" },
+        { "path": "scaffold/analyze.mjs", "sha256": "2fd76087a03aca47b602951d34c404bcba1c1932b6c5b19d810d770efdde5287" }
       ]
     },
     {
@@ -23,12 +23,12 @@
       "estimated_hours": "0.5",
       "version": "0.1.0",
       "files": [
-        "tasks.yaml",
-        "rubric.yaml",
-        "README.md",
-        "scaffold/docs.json",
-        "scaffold/queries.json",
-        "scaffold/index.mjs"
+        { "path": "tasks.yaml", "sha256": "0ffff21bf1a646e1752b4715869a396e32753c659f44deb1ddda1623ca5f08f9" },
+        { "path": "rubric.yaml", "sha256": "42b28ca214b04344623d1f7702ec17a08326308d123f4456c61d7d8330216083" },
+        { "path": "README.md", "sha256": "6e99763bc3409ece8b0571685f6896cd2f86bf8cbae3fd5cb9f1074dbbe9180a" },
+        { "path": "scaffold/docs.json", "sha256": "07b9c2b9554e0315d5d34eb5d82bd9144484adaf18ee8c3ebb1ee0d263bb6e35" },
+        { "path": "scaffold/index.mjs", "sha256": "faa830830edce49d9f6c9468accdd95b6b6ad31c6f9cdb4b2e24ca2a86c1b9e6" },
+        { "path": "scaffold/queries.json", "sha256": "5ce5ef225ce1bf3c651cdec505d65e6dc39346079bf1fa0fa9875c711f04171f" }
       ]
     },
     {
@@ -38,11 +38,11 @@
       "estimated_hours": "0.5",
       "version": "0.1.0",
       "files": [
-        "tasks.yaml",
-        "rubric.yaml",
-        "README.md",
-        "scaffold/server.mjs",
-        "scaffold/bench.mjs"
+        { "path": "tasks.yaml", "sha256": "b1a8dc5c2d12a47cba82ca2fc02cd5f89e36bf492f3d7206a8129cbfb7c84446" },
+        { "path": "rubric.yaml", "sha256": "a61b54b5477835f2708f5ec4dba21f2679fe5979f456981ba4353dfd30023bc8" },
+        { "path": "README.md", "sha256": "f913c61cff16c959a1e6423fd75362bcca2b5864a3db3fca5ef9cea74c4189d0" },
+        { "path": "scaffold/server.mjs", "sha256": "778f820d1e611ca7b6fe5a5f739378be988609fbaa57fb7e87ec1ba4f377a03d" },
+        { "path": "scaffold/bench.mjs", "sha256": "9435fcddedee35793e165e5c4459568c5f3aaa4f6d5deb174c197c1f052c9eb2" }
       ]
     }
   ]

@@ -1,6 +1,6 @@
 {
   "name": "trend2trial",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -14,13 +14,14 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.1.0",
+    "@vitest/coverage-v8": "^2.0.0",
     "eslint": "^9.0.0",
     "prettier": "^3.3.0",
+    "tsx": "^4.19.0",
     "typescript": "^5.5.0",
     "typescript-eslint": "^8.0.0",
-    "tsx": "^4.19.0",
-    "vitest": "^2.0.0",
-    "@types/js-yaml": "^4.0.9"
+    "vitest": "^2.0.0"
   }
 }

@@ -1,6 +1,6 @@
 import type { TrendItem } from "../models/trend-item.js";
 
-const INFRA_KEYWORDS = [
+const DEFAULT_INFRA_KEYWORDS = [
   "vllm",
   "rag",
   "vector",
@@ -37,32 +37,48 @@ const INFRA_KEYWORDS = [
   "api",
 ];
 
-const HALF_LIFE_DAYS = 7;
+export interface RankConfig {
+  freshnessWeight: number;
+  popularityWeight: number;
+  infraWeight: number;
+  roiWeight: number;
+  halfLifeDays: number;
+  infraKeywords: string[];
+}
 
-function freshnessScore(publishedAt: string, now: Date): number {
+export const DEFAULT_RANK_CONFIG: RankConfig = {
+  freshnessWeight: 25,
+  popularityWeight: 25,
+  infraWeight: 30,
+  roiWeight: 20,
+  halfLifeDays: 7,
+  infraKeywords: DEFAULT_INFRA_KEYWORDS,
+};
+
+function freshnessScore(publishedAt: string, now: Date, config: RankConfig): number {
   const published = new Date(publishedAt);
   const diffMs = now.getTime() - published.getTime();
-  if (diffMs < 0) return 25;
+  if (diffMs < 0) return config.freshnessWeight;
   const diffDays = diffMs / (1000 * 60 * 60 * 24);
-  return 25 * Math.pow(0.5, diffDays / HALF_LIFE_DAYS);
+  return config.freshnessWeight * Math.pow(0.5, diffDays / config.halfLifeDays);
 }
 
-function popularityScore(rawScore: number, maxScore: number): number {
+function popularityScore(rawScore: number, maxScore: number, config: RankConfig): number {
   if (maxScore <= 0) return 0;
-  return 25 * Math.min(rawScore / maxScore, 1);
+  return config.popularityWeight * Math.min(rawScore / maxScore, 1);
 }
 
-function infraRelevanceScore(item: TrendItem): number {
+function infraRelevanceScore(item: TrendItem, config: RankConfig): number {
   const text = `${item.title} ${item.summary} ${item.tags.join(" ")}`.toLowerCase();
   let matches = 0;
-  for (const kw of INFRA_KEYWORDS) {
+  for (const kw of config.infraKeywords) {
     if (text.includes(kw)) matches++;
   }
   const ratio = Math.min(matches / 5, 1);
-  return 30 * ratio;
+  return config.infraWeight * ratio;
 }
 
-function learningRoiScore(item: TrendItem): number {
+function learningRoiScore(item: TrendItem, config: RankConfig): number {
   let score = 0;
   const text = `${item.title} ${item.summary} ${item.url}`.toLowerCase();
 
@@ -81,20 +97,21 @@ function learningRoiScore(item: TrendItem): number {
     score += 6;
   }
 
-  return Math.min(score, 20);
+  return Math.min(score, config.roiWeight);
 }
 
-export function rank(items: TrendItem[]): TrendItem[] {
+export function rank(items: TrendItem[], config?: Partial<RankConfig>): TrendItem[] {
   if (items.length === 0) return [];
 
+  const cfg: RankConfig = { ...DEFAULT_RANK_CONFIG, ...config };
   const now = new Date();
   const maxRawScore = Math.max(...items.map((i) => i.score), 1);
 
   const scored = items.map((item) => {
-    const freshness = freshnessScore(item.publishedAt, now);
-    const popularity = popularityScore(item.score, maxRawScore);
-    const infra = infraRelevanceScore(item);
-    const roi = learningRoiScore(item);
+    const freshness = freshnessScore(item.publishedAt, now, cfg);
+    const popularity = popularityScore(item.score, maxRawScore, cfg);
+    const infra = infraRelevanceScore(item, cfg);
+    const roi = learningRoiScore(item, cfg);
     const total = Math.round(freshness + popularity + infra + roi);
 
     return { ...item, score: Math.min(total, 100) };

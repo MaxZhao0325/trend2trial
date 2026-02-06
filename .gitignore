@@ -4,3 +4,4 @@ dist/
 .DS_Store
 apps/web/dist/
 docs/cards/
+.claude/settings.local.json

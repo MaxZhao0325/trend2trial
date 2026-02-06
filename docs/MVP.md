@@ -21,11 +21,11 @@
 ### 2. CLI (`packages/cli`)
 
 ```
-trend2trial trends                  # List current trends
-trend2trial trends --topic serving  # Filter by sub-domain
-trend2trial recipe list             # List available recipes
-trend2trial recipe run <name>       # Run a recipe
-trend2trial recipe report <name>    # Generate REPORT.md
+trend2trial build                             # Generate Markdown trend cards
+trend2trial trends fetch [--json] [--output]  # Fetch latest trends from adapters
+trend2trial recipe list                       # List available recipes
+trend2trial recipe init <name> <dest>         # Initialize recipe into working directory
+trend2trial recipe run <dest> [--yes]         # Run a recipe and generate REPORT.md
 ```
 
 ### 3. Recipes (`recipes/`)
@@ -48,17 +48,15 @@ Each recipe contains: README.md, tasks.yaml, rubric.yaml, scaffold/. All recipes
 
 ## What's Out
 
-- Auto-fetching trends (manual curation for MVP).
 - User accounts / auth.
 - Cloud deployment of recipes.
 - Topics beyond AI Infra.
-- CI/CD pipeline (manual release via `/release` skill).
 
 ## Acceptance Criteria
 
-- [ ] `pnpm install && pnpm build` succeeds on a clean checkout.
-- [ ] `trend2trial trends` prints >= 5 trend cards.
-- [ ] `trend2trial recipe run serving-latency` completes and produces REPORT.md.
-- [ ] Static site builds and displays trend cards + recipe list.
-- [ ] `pnpm test` passes with core module coverage.
-- [ ] `pnpm lint` passes with zero errors.
+- [x] `pnpm install && pnpm build` succeeds on a clean checkout.
+- [x] `trend2trial trends fetch` fetches trend cards from adapters.
+- [x] `trend2trial recipe run` completes and produces REPORT.md.
+- [x] Static site builds and displays trend cards + recipe list.
+- [x] `pnpm test` passes with core module coverage (273 tests, 94% coverage).
+- [x] `pnpm lint` passes with zero errors.

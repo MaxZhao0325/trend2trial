@@ -6,9 +6,17 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [20, 22]
     steps:
       - uses: actions/checkout@v4
 
@@ -18,10 +26,24 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+
+      - name: Audit dependencies
+        run: pnpm audit --prod || true
+
       - run: pnpm lint
+      - run: pnpm format:check
       - run: pnpm build
       - run: pnpm test
+
+      - if: matrix.node-version == 22
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            packages/core/dist
+            packages/cli/dist
+          retention-days: 7

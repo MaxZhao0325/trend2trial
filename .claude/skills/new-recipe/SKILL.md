@@ -17,4 +17,6 @@ Every recipe run must produce a REPORT.md containing:
 - Result summary
 - Reproducible command
 
-After scaffolding, update the recipe list in docs/MVP.md.
+After scaffolding:
+1. Update `recipes/registry.json` — add a new entry with name, title, category, estimated_hours, version, and files (use ChecksummedFile with SHA256 hashes for integrity).
+2. Update the recipe list in docs/MVP.md and README.md.

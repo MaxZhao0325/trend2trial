@@ -51,7 +51,15 @@ trend2trial/
 | `trend2trial build` | Generate Markdown trend cards from data |
 | `trend2trial recipe list` | List all available recipes |
 | `trend2trial recipe init <name> <dest>` | Initialize a recipe into a working directory |
-| `trend2trial recipe run <dest>` | Run a recipe and generate REPORT.md |
+| `trend2trial recipe run <dest> [--yes] [--no-fail-fast]` | Run a recipe and generate REPORT.md |
+| `trend2trial trends fetch [--json] [--output <path>]` | Fetch latest trends from all adapters |
+| `trend2trial --help` | Show help message |
+| `trend2trial --version` | Show version number |
+
+**Flags:**
+- `--yes` / `-y` — Skip confirmation prompt for recipe run
+- `--no-fail-fast` — Continue running steps after a failure
+- `--json` — Output trends as JSON (trends fetch only)
 
 When running from a cloned repo, use `node packages/cli/dist/main.js` in place of `trend2trial`.
 
@@ -87,8 +95,32 @@ Environment variables for customization:
 | `pnpm install` | Install all dependencies |
 | `pnpm build` | Build all packages |
 | `pnpm test` | Run unit tests (vitest) |
+| `pnpm test -- --coverage` | Run tests with coverage report |
 | `pnpm lint` | Run ESLint |
 | `pnpm format` | Format code with Prettier |
+
+## Contributing
+
+1. Fork the repo and create a feature branch.
+2. Run `pnpm install && pnpm build` to set up.
+3. Make your changes, ensuring `pnpm lint` and `pnpm test` pass.
+4. Each recipe must include `tasks.yaml`, `rubric.yaml`, and a `scaffold/` directory.
+5. Update `recipes/registry.json` when adding or modifying recipes.
+6. Open a PR with a clear description and reproducible steps.
+
+## Troubleshooting
+
+**`pnpm build` fails with module not found:**
+Ensure you run `pnpm install` first. The CLI depends on `trend2trial-core` as a workspace dependency.
+
+**Recipe run hangs or times out:**
+Each task has a `timeout_seconds` in `tasks.yaml`. Check if a background process (e.g., server) needs explicit cleanup. Use `--no-fail-fast` to continue past failures.
+
+**`npx trend2trial` uses stale version:**
+Clear the npx cache: `npx --yes trend2trial@latest recipe list`
+
+**Coverage below threshold:**
+Run `pnpm test -- --coverage` to see the full report. Coverage thresholds apply to `packages/core` only.
 
 ## License
 

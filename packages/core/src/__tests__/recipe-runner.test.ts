@@ -41,7 +41,7 @@ describe("runRecipe", () => {
       ].join("\n"),
     );
 
-    const result = await runRecipe(tempDir);
+    const result = await runRecipe(tempDir, { confirmed: true });
     expect(result.recipe).toBe("test-run");
     expect(result.steps).toHaveLength(1);
     expect(result.steps[0].exitCode).toBe(0);
@@ -74,7 +74,7 @@ describe("runRecipe", () => {
       ].join("\n"),
     );
 
-    const result = await runRecipe(tempDir);
+    const result = await runRecipe(tempDir, { confirmed: true });
     expect(result.steps[0].exitCode).not.toBe(0);
   });
 
@@ -102,7 +102,7 @@ describe("runRecipe", () => {
       ].join("\n"),
     );
 
-    const result = await runRecipe(tempDir);
+    const result = await runRecipe(tempDir, { confirmed: true });
     expect(result.metrics).toEqual({ latency: 42 });
   });
 });
@@ -145,7 +145,7 @@ describe("generateReport", () => {
     );
 
     const recipe = await loadRecipe(tempDir);
-    const result = await runRecipe(tempDir);
+    const result = await runRecipe(tempDir, { confirmed: true });
     const report = generateReport(recipe, result);
 
     expect(report).toContain("# REPORT");
