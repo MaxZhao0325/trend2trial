@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.0.1 (2026-02-06)
+
+### Fixes
+
+- fix: `trends fetch` crashed with ENOENT when `--output` not specified
+- fix: publish workflow now publishes `trend2trial-core` before CLI
+
 ## v1.0.0 (2026-02-05)
 
 ### Pipeline & Trend Fetching
