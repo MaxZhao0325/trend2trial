@@ -145,7 +145,7 @@ async function main(): Promise<void> {
       }
       await trendsFetch({
         json: values.json,
-        output: values.output as string | undefined,
+        output: process.argv.includes("--output") ? (values.output as string) : undefined,
       });
       break;
     }
