@@ -128,9 +128,7 @@ async function main() {
         const isHit = hitIds.includes(q.expected_doc_id);
         if (isHit) hits++;
 
-        console.log(
-          `  ${isHit ? "HIT" : "MISS"} | "${q.query}" → [${hitIds.join(", ")}]`,
-        );
+        console.log(`  ${isHit ? "HIT" : "MISS"} | "${q.query}" → [${hitIds.join(", ")}]`);
       } catch (err) {
         failedQueries++;
         console.error(`  FAIL | "${q.query}": ${err.message}`);
@@ -150,7 +148,7 @@ async function main() {
     return;
   }
 
-  console.error('Usage: node index.mjs <build|query>');
+  console.error("Usage: node index.mjs <build|query>");
   process.exit(1);
 }
 

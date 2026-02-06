@@ -31,6 +31,11 @@ export interface Recipe extends RecipeMeta {
   rubric: Rubric;
 }
 
+export interface RunOptions {
+  confirmed: boolean;
+  failFast?: boolean;
+}
+
 export interface StepResult {
   name: string;
   exitCode: number;

@@ -77,10 +77,12 @@ async function build() {
 
   const sortedCards = cards.sort((a, b) => b.relevanceScore - a.relevanceScore);
 
+  const categories = [...new Set(sortedCards.map((c) => c.category))];
+
   const trendRows = sortedCards
     .map(
       (c) => `
-      <tr>
+      <tr data-category="${c.category}">
         <td class="score-cell"><div class="score">${c.relevanceScore}</div></td>
         <td>
           <div class="trend-title">${escapeHtml(c.title)}</div>
@@ -96,13 +98,19 @@ async function build() {
   const recipeCards = recipes
     .map(
       (r) => `
-      <div class="recipe-card">
+      <div class="recipe-card" data-category="${r.category}">
         <div class="recipe-header">
           <span class="badge badge-${r.category}">${r.category}</span>
           <span class="recipe-hours">${r.hours}h</span>
         </div>
         <h3 class="recipe-title">${escapeHtml(r.title)}</h3>
-        <p class="recipe-desc">${escapeHtml(r.description)}</p>
+        <details>
+          <summary class="recipe-desc">${escapeHtml(r.description || "View details")}</summary>
+          <div class="recipe-expanded">
+            <p>${r.taskCount} steps to complete. Run with:</p>
+            <code>npx trend2trial recipe init ${r.name} ./${r.name}</code>
+          </div>
+        </details>
         <div class="recipe-meta">
           <span>${r.taskCount} steps</span>
           <code>recipe init ${r.name}</code>
@@ -122,14 +130,32 @@ async function build() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track AI Infrastructure trends in Serving, RAG, and LLMOps. Run hands-on trial recipes to benchmark and evaluate emerging tools.">
+  <meta property="og:title" content="Trend-to-Trial — AI Infra Trend Radar">
+  <meta property="og:description" content="Track AI Infrastructure trends and run hands-on trial recipes for Serving, RAG, and LLMOps.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Trend-to-Trial — AI Infra Trend Radar">
+  <meta name="twitter:description" content="Track AI Infrastructure trends and run hands-on trial recipes.">
+  <meta property="og:url" content="https://maxzhao0325.github.io/trend2trial/">
+  <link rel="canonical" href="https://maxzhao0325.github.io/trend2trial/">
   <title>Trend-to-Trial — AI Infra Trend Radar</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Trend-to-Trial",
+    "description": "AI Infra Trend Radar + Trial Playground",
+    "url": "https://maxzhao0325.github.io/trend2trial/"
+  }
+  </script>
   <style>
     :root {
       --bg: #fafafa;
       --surface: #ffffff;
       --text: #1a1a2e;
       --text-secondary: #555;
-      --text-muted: #888;
+      --text-muted: #6b6b6b;
       --border: #e8e8e8;
       --accent: #4361ee;
       --serving: #1565c0;
@@ -145,6 +171,29 @@ async function build() {
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+    }
+
+    /* Skip navigation */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 0 0 4px 4px;
+      z-index: 100;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* Focus styles */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
 
     /* Header */
@@ -372,6 +421,106 @@ async function build() {
     }
     .footer a { color: var(--accent); text-decoration: none; }
 
+    /* Search & Filter */
+    .filter-bar {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      background: var(--surface);
+      color: var(--text);
+    }
+    .search-input::placeholder { color: var(--text-muted); }
+    .filter-btn {
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .filter-btn:hover { background: var(--bg); }
+    .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .no-results {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    /* Expandable recipe cards */
+    .recipe-card details summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .recipe-card details summary::-webkit-details-marker { display: none; }
+    .recipe-card details summary::before {
+      content: "\\25B6";
+      font-size: 0.65rem;
+      transition: transform 0.15s;
+      color: var(--text-muted);
+    }
+    .recipe-card details[open] summary::before {
+      transform: rotate(90deg);
+    }
+    .recipe-card .recipe-expanded {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed var(--border);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --surface: #1e1e1e;
+        --text: #e0e0e0;
+        --text-secondary: #b0b0b0;
+        --text-muted: #888;
+        --border: #333;
+        --accent: #5e7ce2;
+        --serving: #64b5f6;
+        --serving-bg: #1a2740;
+        --rag: #ce93d8;
+        --rag-bg: #2a1a30;
+        --llmops: #ffb74d;
+        --llmops-bg: #2a1f10;
+      }
+      .header {
+        background: linear-gradient(135deg, #0d0d1a 0%, #0f1528 50%, #0a1e3d 100%);
+      }
+      .cli-section {
+        background: #0d0d1a;
+      }
+      .score {
+        background: var(--surface);
+      }
+    }
+
     /* Mobile */
     @media (max-width: 640px) {
       .header h1 { font-size: 1.6rem; }
@@ -385,7 +534,8 @@ async function build() {
   </style>
 </head>
 <body>
-  <header class="header">
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  <header class="header" role="banner">
     <h1>Trend-to-Trial</h1>
     <p class="tagline">AI Infra Trend Radar + Trial Playground</p>
     <div class="stats-row">
@@ -404,19 +554,25 @@ async function build() {
     </div>
   </header>
 
-  <main class="container">
-    <section class="section">
+  <main id="main-content" class="container" role="main">
+    <section class="section" role="region" aria-label="Trends">
       <div class="section-header">
         <h2>Trends</h2>
         <span class="section-count">Serving · RAG · LLMOps</span>
       </div>
+      <div class="filter-bar">
+        <input type="search" class="search-input" id="trend-search" placeholder="Search trends..." aria-label="Search trends">
+        <button class="filter-btn active" data-filter="all">All</button>
+        ${categories.map((cat) => `<button class="filter-btn" data-filter="${cat}">${cat}</button>`).join("\n        ")}
+      </div>
+      <div class="no-results" id="no-results" aria-live="polite">No trends match your search.</div>
       <table class="trends-table">
         <thead>
           <tr>
-            <th>Score</th>
-            <th>Trend</th>
-            <th>Category</th>
-            <th>Date</th>
+            <th scope="col">Score</th>
+            <th scope="col">Trend</th>
+            <th scope="col">Category</th>
+            <th scope="col">Date</th>
           </tr>
         </thead>
         <tbody>
@@ -425,7 +581,7 @@ async function build() {
       </table>
     </section>
 
-    <section class="section">
+    <section class="section" role="region" aria-label="Recipes">
       <div class="section-header">
         <h2>Recipes</h2>
         <span class="section-count">${recipes.length} hands-on trials</span>
@@ -435,7 +591,7 @@ async function build() {
       </div>
     </section>
 
-    <section class="cli-section">
+    <section class="cli-section" role="region" aria-label="Quick Start">
       <h3>Quick Start</h3>
       <pre><span class="comment"># No clone needed — run directly via npx</span>
 <span class="cmd">npx trend2trial recipe list</span>
@@ -449,7 +605,43 @@ async function build() {
     </section>
   </main>
 
-  <footer class="footer">
+  <script>
+  (function() {
+    var search = document.getElementById("trend-search");
+    var btns = document.querySelectorAll(".filter-btn");
+    var rows = document.querySelectorAll(".trends-table tbody tr");
+    var noResults = document.getElementById("no-results");
+    var activeCat = "all";
+
+    function applyFilters() {
+      var q = search.value.toLowerCase();
+      var visible = 0;
+      rows.forEach(function(row) {
+        var cat = row.getAttribute("data-category");
+        var text = row.textContent.toLowerCase();
+        var catMatch = activeCat === "all" || cat === activeCat;
+        var textMatch = !q || text.indexOf(q) !== -1;
+        var show = catMatch && textMatch;
+        row.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+      noResults.style.display = visible === 0 ? "block" : "none";
+    }
+
+    search.addEventListener("input", applyFilters);
+
+    btns.forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        btns.forEach(function(b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        activeCat = btn.getAttribute("data-filter");
+        applyFilters();
+      });
+    });
+  })();
+  </script>
+
+  <footer class="footer" role="contentinfo">
     Trend-to-Trial &mdash; Track AI Infra trends, run hands-on trials.
     <br>
     <a href="https://github.com/MaxZhao0325/trend2trial">GitHub</a>

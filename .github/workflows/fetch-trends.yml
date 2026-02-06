@@ -1,0 +1,48 @@
+name: Fetch Trends
+
+on:
+  schedule:
+    - cron: "0 8 * * 1" # Every Monday 08:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+      - name: Fetch latest trends
+        run: pnpm fetch
+
+      - name: Create PR if data changed
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.TREND_FETCH_PAT }}
+          commit-message: "chore: update trend data (${{ github.run_id }})"
+          branch: auto/trend-update
+          delete-branch: true
+          title: "chore: weekly trend data update"
+          body: |
+            Automated trend data update from scheduled pipeline.
+
+            **Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          labels: automated,trends
+          add-paths: |
+            data/
+            docs/cards/

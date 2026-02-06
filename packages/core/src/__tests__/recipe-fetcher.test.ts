@@ -65,11 +65,7 @@ describe("fetchRegistry", () => {
     // Pre-populate cache
     const { writeFile: wf, mkdir } = await import("node:fs/promises");
     await mkdir(cacheDir, { recursive: true });
-    await wf(
-      join(cacheDir, "registry.json"),
-      JSON.stringify(SAMPLE_REGISTRY),
-      "utf-8",
-    );
+    await wf(join(cacheDir, "registry.json"), JSON.stringify(SAMPLE_REGISTRY), "utf-8");
 
     globalThis.fetch = vi.fn() as unknown as typeof fetch;
 

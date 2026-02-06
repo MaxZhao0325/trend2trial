@@ -2,11 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { mkdtemp, rm, mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import {
-  findLocalRecipesDir,
-  resolveRecipeList,
-  resolveRecipeDir,
-} from "../recipes/resolver.js";
+import { findLocalRecipesDir, resolveRecipeList, resolveRecipeDir } from "../recipes/resolver.js";
 import type { Registry } from "../models/registry.js";
 
 const REMOTE_REGISTRY: Registry = {

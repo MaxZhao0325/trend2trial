@@ -26,7 +26,9 @@ export async function loadTrendsFromDir(
       const data: unknown = JSON.parse(raw);
       const errors = validateTrendCard(data);
       if (errors.length > 0) {
-        console.warn(`Skipping ${file}: ${errors.map((e) => `${e.field} — ${e.message}`).join("; ")}`);
+        console.warn(
+          `Skipping ${file}: ${errors.map((e) => `${e.field} — ${e.message}`).join("; ")}`,
+        );
         continue;
       }
       cards.push(data as TrendCard);

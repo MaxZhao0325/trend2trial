@@ -2,11 +2,7 @@ import { readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import type { RecipeMeta } from "../models/recipe.js";
 import type { FetcherOptions } from "./fetcher.js";
-import {
-  fetchRegistry,
-  fetchRecipe,
-  getDefaultFetcherOptions,
-} from "./fetcher.js";
+import { fetchRegistry, fetchRecipe, getDefaultFetcherOptions } from "./fetcher.js";
 import { listRecipes } from "./loader.js";
 
 export interface ResolveOptions {
@@ -23,9 +19,7 @@ export function findLocalRecipesDir(root: string | undefined): string | undefine
   return join(root, "recipes");
 }
 
-export async function resolveRecipeList(
-  opts: ResolveOptions = {},
-): Promise<RecipeMeta[]> {
+export async function resolveRecipeList(opts: ResolveOptions = {}): Promise<RecipeMeta[]> {
   // Try local first
   if (opts.localRecipesDir) {
     try {
@@ -52,10 +46,7 @@ export async function resolveRecipeList(
   }));
 }
 
-export async function resolveRecipeDir(
-  name: string,
-  opts: ResolveOptions = {},
-): Promise<string> {
+export async function resolveRecipeDir(name: string, opts: ResolveOptions = {}): Promise<string> {
   // Try local first
   if (opts.localRecipesDir) {
     const localDir = join(opts.localRecipesDir, name);

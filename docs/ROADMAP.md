@@ -16,23 +16,40 @@
 
 **Focus:** Zero-clone user experience
 
-- [ ] Publish CLI to npm as `trend2trial` — users run via `npx trend2trial`
-- [ ] `recipes/registry.json`: recipe metadata registry (version, file list, SHA)
-- [ ] `RecipeFetcher` module in core: download recipes from GitHub at runtime
-- [ ] Local cache at `~/.trend2trial/cache/` with version-based invalidation
-- [ ] CLI `recipe init/run` fetches from remote, falls back to local
-- [ ] Users no longer need to clone the repo to use recipes
+- [x] Publish CLI to npm as `trend2trial` — users run via `npx trend2trial`
+- [x] `recipes/registry.json`: recipe metadata registry (version, file list, SHA)
+- [x] `RecipeFetcher` module in core: download recipes from GitHub at runtime
+- [x] Local cache at `~/.trend2trial/cache/` with version-based invalidation
+- [x] CLI `recipe init/run` fetches from remote, falls back to local
+- [x] Users no longer need to clone the repo to use recipes
 
-## v1 — More Sources & Recipes
+## v1 — Pipeline, Security & CI
 
-**Focus:** Automation & breadth within AI Infra
+**Focus:** Automated trend fetching, hardened security, CI/CD
 
-- [ ] Auto-fetch trends from sources (arXiv, GitHub trending, HN, tech blogs)
-- [ ] Trend ranking algorithm (novelty × adoption × learning ROI)
+- [x] Auto-fetch trends from sources (arXiv RSS, HackerNews API)
+- [x] Trend ranking algorithm (recency x source x keyword boost)
+- [x] Pluggable adapter system for trend sources
+- [x] TrendItem-to-TrendCard converter with validation
+- [x] Dedup with URL normalization + fuzzy title matching
+- [x] Versioned JSON writer with schema tracking
+- [x] `trends fetch` CLI command with `--json` and `--output` flags
+- [x] Command blocklist (rm -rf /, curl|sh, pipe to eval)
+- [x] SHA256 checksum verification for recipe files
+- [x] Path traversal protection in fetcher
+- [x] Partial download cleanup on failure
+- [x] User consent prompt before recipe execution
+- [x] Registry schema validation
+- [x] Recipe YAML schema validation (tasks.yaml + rubric.yaml)
+- [x] GitHub Actions CI: lint, test, build on push
+- [x] Publish workflow + release gating
+- [x] Scheduled trend fetching + security scanning
+- [x] CLI improvements: --version, exit codes, colored output, progress spinner, error suggestions
+- [x] Web improvements: search/filter, dark mode, expandable cards, accessibility, SEO
+- [x] Comprehensive test suite (273 tests, 94% coverage)
 - [ ] 10+ recipes covering deeper topics (quantization, LoRA serving, vector DB comparison)
 - [ ] Recipe difficulty levels (beginner / intermediate / advanced)
 - [ ] Weekly digest generation (markdown + optional email)
-- [ ] GitHub Actions CI: lint, test, build, deploy site on push
 
 ## v2 — Beyond Infra
 

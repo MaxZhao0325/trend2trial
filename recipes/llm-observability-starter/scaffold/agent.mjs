@@ -20,8 +20,7 @@ function createSpan(traceId, name, parentSpanId = null) {
 
 function finishSpan(span) {
   span.end_time = new Date().toISOString();
-  span.duration_ms =
-    new Date(span.end_time).getTime() - new Date(span.start_time).getTime();
+  span.duration_ms = new Date(span.end_time).getTime() - new Date(span.start_time).getTime();
 }
 
 async function mockLlmCall(prompt, delayMs) {
@@ -85,9 +84,7 @@ async function main() {
   // Trace 2: another normal query
   const t2 = randomUUID();
   console.log(`Running trace ${t2} (normal)...`);
-  traces.push(
-    ...(await runTrace(t2, "Explain retrieval augmented generation")),
-  );
+  traces.push(...(await runTrace(t2, "Explain retrieval augmented generation")));
 
   // Trace 3: error case
   const t3 = randomUUID();

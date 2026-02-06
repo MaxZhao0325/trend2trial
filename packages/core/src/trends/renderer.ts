@@ -23,7 +23,9 @@ export function renderCardsToList(cards: TrendCard[]): string {
 
   const lines: string[] = ["# Trend Radar", ""];
   for (const card of cards) {
-    lines.push(`- **[${card.relevanceScore}]** ${card.title} _(${card.category})_ — ${card.summary.slice(0, 80)}…`);
+    lines.push(
+      `- **[${card.relevanceScore}]** ${card.title} _(${card.category})_ — ${card.summary.slice(0, 80)}…`,
+    );
   }
   lines.push("");
   return lines.join("\n");

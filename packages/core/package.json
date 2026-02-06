@@ -1,6 +1,6 @@
 {
   "name": "trend2trial-core",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -17,5 +17,7 @@
     "fast-xml-parser": "^4.5.0",
     "js-yaml": "^4.1.0"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }
