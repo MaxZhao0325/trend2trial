@@ -30,7 +30,12 @@ jobs:
       - run: pnpm build
       - run: pnpm test
 
+      - name: Publish core to npm
+        run: pnpm --filter trend2trial-core publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish CLI to npm
-        run: pnpm --filter trend2trial publish --no-git-checks
+        run: pnpm --filter trend2trial publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
