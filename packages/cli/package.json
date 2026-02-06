@@ -1,6 +1,6 @@
 {
   "name": "trend2trial",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "AI Infra trend radar + runnable trial recipes (Serving, RAG, LLMOps)",
   "repository": {
