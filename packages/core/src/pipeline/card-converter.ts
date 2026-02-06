@@ -80,11 +80,21 @@ function inferCategory(item: TrendItem): Category {
   return "llmops";
 }
 
+function getHostname(url: string): string {
+  try {
+    return new URL(url).hostname.toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
 function inferSourceType(url: string): SourceType {
+  const host = getHostname(url);
+  if (host === "arxiv.org" || host.endsWith(".arxiv.org")) return "paper";
+  if (host === "github.com" || host.endsWith(".github.com")) return "repo";
+  if (host === "youtube.com" || host.endsWith(".youtube.com") || host === "youtu.be")
+    return "video";
   const lower = url.toLowerCase();
-  if (lower.includes("arxiv.org")) return "paper";
-  if (lower.includes("github.com")) return "repo";
-  if (lower.includes("youtube.com") || lower.includes("youtu.be")) return "video";
   if (lower.includes("/releases") || lower.includes("/release")) return "release";
   return "blog";
 }

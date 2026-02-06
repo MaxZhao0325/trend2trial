@@ -12,14 +12,15 @@ function normalizeUrl(url: string): string {
   try {
     const parsed = new URL(url);
     const host = parsed.hostname.replace(/^www\./, "");
-    const pathname = parsed.pathname.replace(/\/+$/, "");
+    const pathname = parsed.pathname.endsWith("/") ? parsed.pathname.slice(0, -1) : parsed.pathname;
     return `${host}${pathname}`.toLowerCase();
   } catch {
-    return url
-      .toLowerCase()
-      .replace(/^https?:\/\//, "")
-      .replace(/^www\./, "")
-      .replace(/\/+$/, "");
+    let s = url.toLowerCase();
+    if (s.startsWith("https://")) s = s.slice(8);
+    else if (s.startsWith("http://")) s = s.slice(7);
+    if (s.startsWith("www.")) s = s.slice(4);
+    if (s.endsWith("/")) s = s.slice(0, -1);
+    return s;
   }
 }
 
