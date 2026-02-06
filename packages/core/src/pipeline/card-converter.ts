@@ -2,20 +2,56 @@ import type { TrendItem } from "../models/trend-item.js";
 import type { TrendCard, Category, SourceType, Source } from "../models/trend-card.js";
 
 const SERVING_KEYWORDS = [
-  "serving", "inference", "latency", "throughput", "vllm", "triton",
-  "tensorrt", "onnx", "gpu", "batch", "sglang", "speculative",
-  "kv-cache", "attention", "cuda",
+  "serving",
+  "inference",
+  "latency",
+  "throughput",
+  "vllm",
+  "triton",
+  "tensorrt",
+  "onnx",
+  "gpu",
+  "batch",
+  "sglang",
+  "speculative",
+  "kv-cache",
+  "attention",
+  "cuda",
 ];
 
 const RAG_KEYWORDS = [
-  "rag", "vector", "embedding", "retrieval", "chunking", "index",
-  "search", "rerank", "pinecone", "weaviate", "chroma", "faiss",
+  "rag",
+  "vector",
+  "embedding",
+  "retrieval",
+  "chunking",
+  "index",
+  "search",
+  "rerank",
+  "pinecone",
+  "weaviate",
+  "chroma",
+  "faiss",
 ];
 
 const LLMOPS_KEYWORDS = [
-  "llmops", "mlops", "deploy", "kubernetes", "k8s", "docker",
-  "gateway", "proxy", "monitor", "observ", "cost", "rate-limit",
-  "fine-tun", "lora", "quantiz", "ggml", "gguf",
+  "llmops",
+  "mlops",
+  "deploy",
+  "kubernetes",
+  "k8s",
+  "docker",
+  "gateway",
+  "proxy",
+  "monitor",
+  "observ",
+  "cost",
+  "rate-limit",
+  "fine-tun",
+  "lora",
+  "quantiz",
+  "ggml",
+  "gguf",
 ];
 
 function inferCategory(item: TrendItem): Category {
@@ -80,7 +116,9 @@ export function convertToTrendCard(item: TrendItem): TrendCard {
   };
 
   const dateStr = item.publishedAt.slice(0, 10);
-  const date = /^\d{4}-\d{2}-\d{2}$/.test(dateStr) ? dateStr : new Date().toISOString().slice(0, 10);
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(dateStr)
+    ? dateStr
+    : new Date().toISOString().slice(0, 10);
 
   return {
     id: generateId(item.url, item.title),

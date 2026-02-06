@@ -48,7 +48,11 @@ export function validateTrendCard(data: unknown): ValidationError[] {
   if (typeof obj.date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(obj.date)) {
     errors.push({ field: "date", message: "must be ISO 8601 date (YYYY-MM-DD)" });
   }
-  if (typeof obj.relevanceScore !== "number" || obj.relevanceScore < 0 || obj.relevanceScore > 100) {
+  if (
+    typeof obj.relevanceScore !== "number" ||
+    obj.relevanceScore < 0 ||
+    obj.relevanceScore > 100
+  ) {
     errors.push({ field: "relevanceScore", message: "must be a number between 0 and 100" });
   }
   if (!Array.isArray(obj.tags)) {

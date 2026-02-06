@@ -16,7 +16,7 @@ function run(
       [CLI_BIN, ...args],
       { timeout: timeoutMs, env: { ...process.env, NO_COLOR: "1" } },
       (error, stdout, stderr) => {
-        const exitCode = error ? child.exitCode ?? 1 : 0;
+        const exitCode = error ? (child.exitCode ?? 1) : 0;
         res({ stdout, stderr, exitCode });
       },
     );

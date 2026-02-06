@@ -26,14 +26,10 @@ async function main() {
   // Check span field coverage
   let completeSpans = 0;
   for (const span of spans) {
-    const hasAll = REQUIRED_FIELDS.every(
-      (f) => span[f] !== null && span[f] !== undefined,
-    );
+    const hasAll = REQUIRED_FIELDS.every((f) => span[f] !== null && span[f] !== undefined);
     if (hasAll) completeSpans++;
   }
-  const spanCoveragePct = Number(
-    ((completeSpans / spans.length) * 100).toFixed(1),
-  );
+  const spanCoveragePct = Number(((completeSpans / spans.length) * 100).toFixed(1));
 
   // Count error captures
   const errorCaptures = spans.filter((s) => s.status === "error").length;

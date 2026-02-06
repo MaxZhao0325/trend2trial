@@ -14,6 +14,7 @@ Initialize pnpm workspace monorepo with shared tsconfig, ESLint, Prettier, vites
 **Directories:** `/`, `packages/`, `apps/`
 
 **Acceptance Criteria:**
+
 - [ ] `pnpm install` succeeds on clean checkout (macOS & Linux)
 - [ ] `pnpm lint` and `pnpm format:check` run without errors on empty packages
 - [ ] `pnpm test` runs vitest (passes with 0 tests)
@@ -32,6 +33,7 @@ Define the `TrendCard` TypeScript type in `packages/core`. Create a JSON schema 
 **Directories:** `packages/core/src/models/`, `packages/core/src/__tests__/`
 
 **Acceptance Criteria:**
+
 - [ ] `TrendCard` type exported from `packages/core`
 - [ ] `validateTrendCard()` returns typed errors for invalid input
 - [ ] Unit tests cover: valid card, missing required fields, invalid category, invalid URL in sources
@@ -49,7 +51,8 @@ Manually research and create >= 5 trend cards in `data/trends/` as JSON files. C
 **Directories:** `data/trends/`
 
 **Acceptance Criteria:**
-- [ ] >= 5 JSON files in `data/trends/`, at least 1 per sub-domain
+
+- [ ] > = 5 JSON files in `data/trends/`, at least 1 per sub-domain
 - [ ] All files pass `validateTrendCard()`
 - [ ] Each card has >= 2 source URLs pointing to real, accessible content
 - [ ] Trends are from the last 90 days
@@ -66,6 +69,7 @@ Implement `loadTrends()` in core: read all JSON files from `data/trends/`, valid
 **Directories:** `packages/core/src/trends/`, `packages/core/src/__tests__/`
 
 **Acceptance Criteria:**
+
 - [ ] `loadTrends()` returns all valid trend cards sorted by relevance
 - [ ] `loadTrends({ category: 'rag' })` filters correctly
 - [ ] Invalid JSON files are skipped with a warning (not a crash)
@@ -83,6 +87,7 @@ Define `Recipe` type (id, name, category, tasks[], rubric[]). Implement `loadRec
 **Directories:** `packages/core/src/recipes/`, `packages/core/src/__tests__/`
 
 **Acceptance Criteria:**
+
 - [ ] `Recipe` type and `loadRecipes()` exported from core
 - [ ] `runRecipe(id)` executes tasks.yaml steps in order via child_process
 - [ ] Step failure halts execution and reports which step failed
@@ -101,6 +106,7 @@ Implement `generateReport()` in core. Takes recipe run results and produces a RE
 **Directories:** `packages/core/src/reports/`, `packages/core/src/__tests__/`
 
 **Acceptance Criteria:**
+
 - [ ] `generateReport(result)` returns valid markdown string
 - [ ] Output contains all 4 required sections per CLAUDE.md spec
 - [ ] Environment info is auto-detected (os.platform, os.release, node version)
@@ -118,6 +124,7 @@ Create CLI entry point in `packages/cli` using a lightweight arg parser (no heav
 **Directories:** `packages/cli/src/`, `packages/cli/bin/`
 
 **Acceptance Criteria:**
+
 - [ ] `trend2trial trends` prints formatted trend cards to stdout
 - [ ] `trend2trial trends --topic serving` filters output
 - [ ] `trend2trial recipe list` shows available recipes with category
@@ -138,6 +145,7 @@ Create a recipe that benchmarks HTTP serving latency with a mock server. Measure
 **Directories:** `recipes/serving-latency/`
 
 **Acceptance Criteria:**
+
 - [x] `recipes/serving-latency/` contains README.md, tasks.yaml, rubric.yaml, scaffold/
 - [x] README explains what the user learns, prerequisites (Node.js >= 20), expected outcome
 - [x] tasks.yaml has steps: start-server, benchmark, stop-server
@@ -156,6 +164,7 @@ Build a minimal in-memory TF-IDF search pipeline with hit rate evaluation. No ex
 **Directories:** `recipes/rag-starter/`
 
 **Acceptance Criteria:**
+
 - [x] `recipes/rag-starter/` contains README.md, tasks.yaml, rubric.yaml, scaffold/
 - [x] Pipeline runs fully offline (TF-IDF scoring, sample corpus included)
 - [x] rubric.yaml defines metrics: hit_rate, index_build_time_ms
@@ -173,6 +182,7 @@ Build a mock LLM call chain with structured JSON tracing and analyze trace compl
 **Directories:** `recipes/llm-observability-starter/`
 
 **Acceptance Criteria:**
+
 - [x] `recipes/llm-observability-starter/` contains README.md, tasks.yaml, rubric.yaml, scaffold/
 - [x] Mock LLM agent produces structured traces
 - [x] Analyzer checks trace completeness and coverage
@@ -191,6 +201,7 @@ Build a static site in `apps/web` that displays trend cards and recipe catalog. 
 **Directories:** `apps/web/`, `apps/web/scripts/`
 
 **Acceptance Criteria:**
+
 - [ ] `pnpm --filter web build` generates static HTML in `apps/web/dist/`
 - [ ] Index page lists all trend cards with title, summary, category, relevance badge
 - [ ] Recipes page lists all recipes with name, category, and link to README content
@@ -210,6 +221,7 @@ Write an E2E test script that runs the full flow: install → build → list tre
 **Directories:** `scripts/`, `README.md`
 
 **Acceptance Criteria:**
+
 - [ ] `scripts/e2e-smoke.sh` runs the full flow and exits 0 on success
 - [ ] Script works on both macOS and Linux
 - [ ] Root README.md contains: project description, quickstart (< 5 commands), architecture diagram (ASCII), link to docs/, contributing section

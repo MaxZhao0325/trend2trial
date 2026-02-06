@@ -60,8 +60,4 @@ export {
   validateRegistry,
 } from "./recipes/fetcher.js";
 export type { ResolveOptions } from "./recipes/resolver.js";
-export {
-  findLocalRecipesDir,
-  resolveRecipeList,
-  resolveRecipeDir,
-} from "./recipes/resolver.js";
+export { findLocalRecipesDir, resolveRecipeList, resolveRecipeDir } from "./recipes/resolver.js";

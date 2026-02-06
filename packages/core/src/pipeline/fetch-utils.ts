@@ -26,10 +26,7 @@ function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export async function fetchWithRetry(
-  url: string,
-  options?: RetryOptions,
-): Promise<Response> {
+export async function fetchWithRetry(url: string, options?: RetryOptions): Promise<Response> {
   const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   const maxRetries = options?.maxRetries ?? DEFAULT_MAX_RETRIES;
 
@@ -39,10 +36,7 @@ export async function fetchWithRetry(
       const signals: AbortSignal[] = [timeoutSignal];
       if (options?.signal) signals.push(options.signal);
 
-      const combinedSignal =
-        signals.length === 1
-          ? signals[0]
-          : AbortSignal.any(signals);
+      const combinedSignal = signals.length === 1 ? signals[0] : AbortSignal.any(signals);
 
       const response = await fetch(url, { signal: combinedSignal });
 

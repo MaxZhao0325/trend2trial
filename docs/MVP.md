@@ -4,11 +4,11 @@
 
 **AI Infra** — specifically three sub-domains:
 
-| Sub-domain | Example trends |
-|------------|---------------|
-| **Serving** | vLLM, TGI, SGLang, speculative decoding |
-| **RAG** | Chunking strategies, hybrid search, reranking, evaluation |
-| **LLMOps** | Prompt management, observability, cost tracking, gateway patterns |
+| Sub-domain  | Example trends                                                    |
+| ----------- | ----------------------------------------------------------------- |
+| **Serving** | vLLM, TGI, SGLang, speculative decoding                           |
+| **RAG**     | Chunking strategies, hybrid search, reranking, evaluation         |
+| **LLMOps**  | Prompt management, observability, cost tracking, gateway patterns |
 
 ## What's In
 
@@ -32,11 +32,11 @@ trend2trial recipe run <dest> [--yes]         # Run a recipe and generate REPORT
 
 MVP ships with 3 recipes:
 
-| Recipe | Sub-domain | What you learn |
-|--------|-----------|----------------|
-| `serving-latency` | Serving | Benchmark HTTP endpoint latency, compute p95/p99 metrics |
-| `rag-starter` | RAG | Build an in-memory TF-IDF search pipeline, evaluate hit rate |
-| `llm-observability-starter` | LLMOps | Instrument LLM call chains with structured JSON tracing |
+| Recipe                      | Sub-domain | What you learn                                               |
+| --------------------------- | ---------- | ------------------------------------------------------------ |
+| `serving-latency`           | Serving    | Benchmark HTTP endpoint latency, compute p95/p99 metrics     |
+| `rag-starter`               | RAG        | Build an in-memory TF-IDF search pipeline, evaluate hit rate |
+| `llm-observability-starter` | LLMOps     | Instrument LLM call chains with structured JSON tracing      |
 
 Each recipe contains: README.md, tasks.yaml, rubric.yaml, scaffold/. All recipes use only Node.js built-ins — no external dependencies.
 

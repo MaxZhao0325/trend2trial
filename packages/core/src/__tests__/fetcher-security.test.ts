@@ -48,9 +48,7 @@ describe("fetchRecipe — path traversal protection", () => {
       text: () => Promise.resolve("malicious content"),
     }) as unknown as typeof fetch;
 
-    await expect(fetchRecipe(entry, makeOpts(cacheDir))).rejects.toThrow(
-      "Path traversal detected",
-    );
+    await expect(fetchRecipe(entry, makeOpts(cacheDir))).rejects.toThrow("Path traversal detected");
   });
 
   it("rejects path traversal with ../ in middle of path", async () => {
@@ -68,9 +66,7 @@ describe("fetchRecipe — path traversal protection", () => {
       text: () => Promise.resolve("malicious content"),
     }) as unknown as typeof fetch;
 
-    await expect(fetchRecipe(entry, makeOpts(cacheDir))).rejects.toThrow(
-      "Path traversal detected",
-    );
+    await expect(fetchRecipe(entry, makeOpts(cacheDir))).rejects.toThrow("Path traversal detected");
   });
 
   it("rejects absolute paths", async () => {
@@ -88,9 +84,7 @@ describe("fetchRecipe — path traversal protection", () => {
       text: () => Promise.resolve("malicious content"),
     }) as unknown as typeof fetch;
 
-    await expect(fetchRecipe(entry, makeOpts(cacheDir))).rejects.toThrow(
-      "Path traversal detected",
-    );
+    await expect(fetchRecipe(entry, makeOpts(cacheDir))).rejects.toThrow("Path traversal detected");
   });
 
   it("allows safe nested paths like scaffold/server.js", async () => {
@@ -233,7 +227,10 @@ describe("fetchRecipe — SHA256 checksum verification", () => {
       estimated_hours: "1",
       version: "0.1.0",
       files: [
-        { path: "tasks.yaml", sha256: "deadbeef0000000000000000000000000000000000000000000000000000dead" } as unknown as string,
+        {
+          path: "tasks.yaml",
+          sha256: "deadbeef0000000000000000000000000000000000000000000000000000dead",
+        } as unknown as string,
       ],
     };
 
@@ -242,9 +239,7 @@ describe("fetchRecipe — SHA256 checksum verification", () => {
       text: () => Promise.resolve("actual file content"),
     }) as unknown as typeof fetch;
 
-    await expect(fetchRecipe(entry, makeOpts(cacheDir))).rejects.toThrow(
-      "SHA256 mismatch",
-    );
+    await expect(fetchRecipe(entry, makeOpts(cacheDir))).rejects.toThrow("SHA256 mismatch");
   });
 
   it("skips checksum for legacy string file entries", async () => {

@@ -153,9 +153,9 @@ describe("fetchTrends", () => {
   });
 
   it("returns empty array when both adapters fail", async () => {
-    globalThis.fetch = vi.fn().mockRejectedValue(
-      new Error("Network down"),
-    ) as unknown as typeof fetch;
+    globalThis.fetch = vi
+      .fn()
+      .mockRejectedValue(new Error("Network down")) as unknown as typeof fetch;
 
     const items = await fetchTrends();
     expect(items).toEqual([]);

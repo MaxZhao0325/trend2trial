@@ -27,9 +27,7 @@ describe("validateRegistry", () => {
 
   it("passes for registry with checksummed files", () => {
     const reg = validRegistry();
-    reg.recipes[0].files = [
-      { path: "tasks.yaml", sha256: "abc123" },
-    ] as unknown as string[];
+    reg.recipes[0].files = [{ path: "tasks.yaml", sha256: "abc123" }] as unknown as string[];
     const result = validateRegistry(reg);
     expect(result.recipes[0].files).toHaveLength(1);
   });

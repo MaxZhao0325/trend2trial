@@ -92,10 +92,7 @@ describe("writeTrends", () => {
   it("incoming card with lower score does not replace existing", async () => {
     const outputPath = join(tempDir, "trends.json");
 
-    await writeTrends(
-      [makeCard({ id: "dup", title: "Original", relevanceScore: 90 })],
-      outputPath,
-    );
+    await writeTrends([makeCard({ id: "dup", title: "Original", relevanceScore: 90 })], outputPath);
 
     const envelope = await writeTrends(
       [makeCard({ id: "dup", title: "Lower", relevanceScore: 30 })],
@@ -109,20 +106,12 @@ describe("writeTrends", () => {
 
   it("prunes stale cards older than 30 days", async () => {
     const outputPath = join(tempDir, "trends.json");
-    const oldDate = new Date(Date.now() - 45 * 24 * 60 * 60 * 1000)
-      .toISOString()
-      .slice(0, 10);
+    const oldDate = new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
-    await writeTrends(
-      [makeCard({ id: "old", date: oldDate, relevanceScore: 50 })],
-      outputPath,
-    );
+    await writeTrends([makeCard({ id: "old", date: oldDate, relevanceScore: 50 })], outputPath);
 
     // Write a fresh card — old one should be pruned during merge
-    const envelope = await writeTrends(
-      [makeCard({ id: "fresh", relevanceScore: 80 })],
-      outputPath,
-    );
+    const envelope = await writeTrends([makeCard({ id: "fresh", relevanceScore: 80 })], outputPath);
 
     const ids = envelope.cards.map((c) => c.id);
     expect(ids).toContain("fresh");

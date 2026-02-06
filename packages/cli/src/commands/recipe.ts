@@ -47,8 +47,12 @@ export async function recipeList(root: string | undefined): Promise<void> {
   for (const r of recipes) {
     console.log(
       r.name.padEnd(35) +
-        categoryBadge(r.category).padEnd(12 + (categoryBadge(r.category).length - r.category.length)) +
-        dim(r.estimated_hours).padEnd(8 + (dim(r.estimated_hours).length - r.estimated_hours.length)) +
+        categoryBadge(r.category).padEnd(
+          12 + (categoryBadge(r.category).length - r.category.length),
+        ) +
+        dim(r.estimated_hours).padEnd(
+          8 + (dim(r.estimated_hours).length - r.estimated_hours.length),
+        ) +
         r.title,
     );
   }
@@ -97,10 +101,7 @@ export interface RecipeRunFlags {
   noFailFast?: boolean;
 }
 
-export async function recipeRun(
-  dest: string,
-  flags: RecipeRunFlags = {},
-): Promise<void> {
+export async function recipeRun(dest: string, flags: RecipeRunFlags = {}): Promise<void> {
   const absDest = resolve(dest);
   if (absDest.includes("\0")) {
     exitWithUsageError(`Invalid destination path: "${dest}"`);
@@ -109,7 +110,9 @@ export async function recipeRun(
   const recipe = await loadRecipe(absDest);
   const commands = previewCommands(recipe);
 
-  console.log(`Recipe ${header(recipe.title)} will run ${header(String(commands.length))} commands:`);
+  console.log(
+    `Recipe ${header(recipe.title)} will run ${header(String(commands.length))} commands:`,
+  );
   console.log("");
   for (const cmd of commands) {
     console.log(`  ${dim("$")} ${cmd}`);

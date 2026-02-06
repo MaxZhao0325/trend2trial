@@ -80,13 +80,13 @@ describe("fetchWithRetry", () => {
   });
 
   it("throws non-retryable error immediately", async () => {
-    globalThis.fetch = vi.fn().mockRejectedValue(
-      new TypeError("Invalid URL"),
-    ) as unknown as typeof fetch;
+    globalThis.fetch = vi
+      .fn()
+      .mockRejectedValue(new TypeError("Invalid URL")) as unknown as typeof fetch;
 
-    await expect(
-      fetchWithRetry("not-a-url", { maxRetries: 2, timeout: 5000 }),
-    ).rejects.toThrow("Invalid URL");
+    await expect(fetchWithRetry("not-a-url", { maxRetries: 2, timeout: 5000 })).rejects.toThrow(
+      "Invalid URL",
+    );
     expect(globalThis.fetch).toHaveBeenCalledTimes(1);
   });
 
@@ -97,7 +97,10 @@ describe("fetchWithRetry", () => {
       statusText: "Not Found",
     }) as unknown as typeof fetch;
 
-    const res = await fetchWithRetry("https://example.com/missing", { maxRetries: 2, timeout: 5000 });
+    const res = await fetchWithRetry("https://example.com/missing", {
+      maxRetries: 2,
+      timeout: 5000,
+    });
     expect(res.status).toBe(404);
     expect(globalThis.fetch).toHaveBeenCalledTimes(1);
   });

@@ -35,9 +35,13 @@ export async function listRecipes(recipesDir: string): Promise<RecipeMeta[]> {
 
 const VALID_CATEGORIES = ["serving", "rag", "llmops"] as const;
 
-function validateTasksData(
-  data: unknown,
-): { name: string; title: string; category: RecipeMeta["category"]; estimated_hours: string; tasks: TaskStep[] } {
+function validateTasksData(data: unknown): {
+  name: string;
+  title: string;
+  category: RecipeMeta["category"];
+  estimated_hours: string;
+  tasks: TaskStep[];
+} {
   if (data === null || typeof data !== "object") {
     throw new Error("Invalid tasks.yaml: expected an object");
   }
@@ -49,7 +53,10 @@ function validateTasksData(
   if (typeof obj.title !== "string" || obj.title.length === 0) {
     throw new Error("Invalid tasks.yaml: missing or invalid 'title'");
   }
-  if (typeof obj.category !== "string" || !VALID_CATEGORIES.includes(obj.category as typeof VALID_CATEGORIES[number])) {
+  if (
+    typeof obj.category !== "string" ||
+    !VALID_CATEGORIES.includes(obj.category as (typeof VALID_CATEGORIES)[number])
+  ) {
     throw new Error(
       `Invalid tasks.yaml: 'category' must be one of: ${VALID_CATEGORIES.join(", ")}`,
     );
@@ -137,9 +144,6 @@ export async function loadRecipe(recipeDir: string): Promise<Recipe> {
   };
 }
 
-export async function copyScaffold(
-  recipeDir: string,
-  dest: string,
-): Promise<void> {
+export async function copyScaffold(recipeDir: string, dest: string): Promise<void> {
   await cp(recipeDir, dest, { recursive: true });
 }

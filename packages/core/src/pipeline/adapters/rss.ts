@@ -77,7 +77,9 @@ export function parseRssFeed(xml: string, source: string = "arxiv-rss"): TrendIt
   });
   const parsed = parser.parse(xml) as RssFeed;
   const items = extractItems(parsed);
-  return items.map((item) => toTrendItem(item, source)).filter((item): item is TrendItem => item !== null);
+  return items
+    .map((item) => toTrendItem(item, source))
+    .filter((item): item is TrendItem => item !== null);
 }
 
 export async function fetchRss(url: string = DEFAULT_FEED_URLS[0]): Promise<TrendItem[]> {
@@ -90,10 +92,7 @@ export async function fetchRss(url: string = DEFAULT_FEED_URLS[0]): Promise<Tren
   return parseRssFeed(xml, source);
 }
 
-async function fetchSingleFeed(
-  url: string,
-  options?: AdapterOptions,
-): Promise<TrendItem[]> {
+async function fetchSingleFeed(url: string, options?: AdapterOptions): Promise<TrendItem[]> {
   const source = feedSourceName(url);
   const response = await fetchWithRetry(url, {
     timeout: options?.timeout,

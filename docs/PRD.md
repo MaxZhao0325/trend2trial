@@ -11,11 +11,11 @@ There is no single tool that curates actionable trends **and** pairs each with a
 
 ## Target Users
 
-| Persona | Description |
-|---------|-------------|
-| **Career-switcher** | Full-stack / backend engineer (2-8 YoE) exploring AI roles; needs portfolio projects and domain knowledge |
-| **Curious generalist** | Engineer who wants to stay current on AI Infra without deep-diving every paper |
-| **Hiring-prep engineer** | Someone preparing for AI Infra interviews who needs hands-on experience fast |
+| Persona                  | Description                                                                                               |
+| ------------------------ | --------------------------------------------------------------------------------------------------------- |
+| **Career-switcher**      | Full-stack / backend engineer (2-8 YoE) exploring AI roles; needs portfolio projects and domain knowledge |
+| **Curious generalist**   | Engineer who wants to stay current on AI Infra without deep-diving every paper                            |
+| **Hiring-prep engineer** | Someone preparing for AI Infra interviews who needs hands-on experience fast                              |
 
 ## Non-Goals
 
@@ -33,10 +33,10 @@ There is no single tool that curates actionable trends **and** pairs each with a
 
 ## Success Metrics
 
-| Metric | Target (MVP) |
-|--------|-------------|
-| Trends covered | >= 5 curated trends in AI Infra |
-| Recipes available | >= 3 runnable recipes |
+| Metric                 | Target (MVP)                              |
+| ---------------------- | ----------------------------------------- |
+| Trends covered         | >= 5 curated trends in AI Infra           |
+| Recipes available      | >= 3 runnable recipes                     |
 | Recipe completion time | < 3 hours per recipe on a standard laptop |
-| CLI setup-to-first-run | < 2 minutes (single npx command) |
-| REPORT.md generated | 100% of recipe runs produce a report |
+| CLI setup-to-first-run | < 2 minutes (single npx command)          |
+| REPORT.md generated    | 100% of recipe runs produce a report      |

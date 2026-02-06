@@ -99,10 +99,7 @@ describe("rank — custom config", () => {
 
 describe("rank — non-mutating behavior", () => {
   it("does not mutate original items array", () => {
-    const items = [
-      makeItem({ title: "B", score: 10 }),
-      makeItem({ title: "A", score: 100 }),
-    ];
+    const items = [makeItem({ title: "B", score: 10 }), makeItem({ title: "A", score: 100 })];
     const originalFirst = items[0].title;
     rank(items);
     expect(items[0].title).toBe(originalFirst);
@@ -143,7 +140,8 @@ describe("rank — learningRoiScore", () => {
   it("items with long trialRecipeSuggestion score higher ROI", () => {
     const detailed = makeItem({
       title: "Item A",
-      trialRecipeSuggestion: "This is a very detailed recipe suggestion with multiple steps to follow",
+      trialRecipeSuggestion:
+        "This is a very detailed recipe suggestion with multiple steps to follow",
       score: 50,
     });
     const brief = makeItem({

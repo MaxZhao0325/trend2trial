@@ -99,10 +99,7 @@ describe("fetchHackerNews", () => {
       const id = Number(String(url).match(/item\/(\d+)/)?.[1]);
       return Promise.resolve({
         ok: true,
-        json: () =>
-          Promise.resolve(
-            makeMockStory({ id, title: `AI model #${id}` }),
-          ),
+        json: () => Promise.resolve(makeMockStory({ id, title: `AI model #${id}` })),
       });
     }) as unknown as typeof fetch;
 
@@ -128,8 +125,7 @@ describe("fetchHackerNews", () => {
       }
       return Promise.resolve({
         ok: true,
-        json: () =>
-          Promise.resolve(makeMockStory({ id: 2, title: "RAG vector search" })),
+        json: () => Promise.resolve(makeMockStory({ id: 2, title: "RAG vector search" })),
       });
     }) as unknown as typeof fetch;
 
@@ -159,8 +155,7 @@ describe("fetchHackerNews", () => {
       }
       return Promise.resolve({
         ok: true,
-        json: () =>
-          Promise.resolve(makeMockStory({ title: "Best pizza in NYC" })),
+        json: () => Promise.resolve(makeMockStory({ title: "Best pizza in NYC" })),
       });
     }) as unknown as typeof fetch;
 
@@ -194,10 +189,7 @@ describe("fetchHackerNews", () => {
       }
       return Promise.resolve({
         ok: true,
-        json: () =>
-          Promise.resolve(
-            makeMockStory({ title: "LLM serving tool", time: storyTime }),
-          ),
+        json: () => Promise.resolve(makeMockStory({ title: "LLM serving tool", time: storyTime })),
       });
     }) as unknown as typeof fetch;
 

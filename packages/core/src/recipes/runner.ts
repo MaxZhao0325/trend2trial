@@ -15,9 +15,11 @@ function execStep(
       ["-c", command],
       { cwd, timeout: timeoutMs, maxBuffer: 10 * 1024 * 1024 },
       (error, stdout, stderr) => {
-        const exitCode = error ? (error as NodeJS.ErrnoException & { code?: number | string }).code === "ERR_CHILD_PROCESS_STDIO_MAXBUFFER"
-          ? 1
-          : child.exitCode ?? 1
+        const exitCode = error
+          ? (error as NodeJS.ErrnoException & { code?: number | string }).code ===
+            "ERR_CHILD_PROCESS_STDIO_MAXBUFFER"
+            ? 1
+            : (child.exitCode ?? 1)
           : 0;
         resolve({ exitCode: typeof exitCode === "number" ? exitCode : 1, stdout, stderr });
       },
@@ -28,22 +30,27 @@ function execStep(
 const BLOCKED_PATTERNS: { pattern: RegExp; reason: string }[] = [
   { pattern: /\brm\s+(-[^\s]*)?-rf\s+\/(?:\s|$)/, reason: "destructive: rm -rf /" },
   { pattern: /\brm\s+(-[^\s]*)?-fr\s+\/(?:\s|$)/, reason: "destructive: rm -fr /" },
-  { pattern: /\bcurl\b.*\|\s*(sh|bash|zsh)\b/, reason: "remote code execution: curl piped to shell" },
-  { pattern: /\bwget\b.*\|\s*(sh|bash|zsh)\b/, reason: "remote code execution: wget piped to shell" },
+  {
+    pattern: /\bcurl\b.*\|\s*(sh|bash|zsh)\b/,
+    reason: "remote code execution: curl piped to shell",
+  },
+  {
+    pattern: /\bwget\b.*\|\s*(sh|bash|zsh)\b/,
+    reason: "remote code execution: wget piped to shell",
+  },
   { pattern: /\bcurl\b.*\|\s*eval\b/, reason: "remote code execution: curl piped to eval" },
   { pattern: /\bwget\b.*\|\s*eval\b/, reason: "remote code execution: wget piped to eval" },
   { pattern: /\|\s*eval\b/, reason: "pipe to eval" },
   { pattern: /\|\s*(sh|bash|zsh)\b/, reason: "pipe to shell" },
 ];
 
-const WARN_PATTERNS: RegExp[] = [
-  /~\/\.ssh/,
-  /~\/\.aws/,
-  /\$HOME\/\.ssh/,
-  /\$HOME\/\.aws/,
-];
+const WARN_PATTERNS: RegExp[] = [/~\/\.ssh/, /~\/\.aws/, /\$HOME\/\.ssh/, /\$HOME\/\.aws/];
 
-export function validateCommand(cmd: string): { safe: boolean; reason?: string; warnings?: string[] } {
+export function validateCommand(cmd: string): {
+  safe: boolean;
+  reason?: string;
+  warnings?: string[];
+} {
   for (const { pattern, reason } of BLOCKED_PATTERNS) {
     if (pattern.test(cmd)) {
       return { safe: false, reason };

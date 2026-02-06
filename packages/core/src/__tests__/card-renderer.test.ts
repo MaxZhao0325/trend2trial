@@ -1,8 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  renderTrendCardMarkdown,
-  renderAllCards,
-} from "../pipeline/card-renderer.js";
+import { renderTrendCardMarkdown, renderAllCards } from "../pipeline/card-renderer.js";
 import type { TrendItem } from "../models/trend-item.js";
 
 function makeItem(overrides: Partial<TrendItem> = {}): TrendItem {
@@ -35,17 +32,13 @@ describe("renderTrendCardMarkdown", () => {
   });
 
   it("contains Quick Trial section with recipe suggestion", () => {
-    const md = renderTrendCardMarkdown(
-      makeItem({ trialRecipeSuggestion: "Run the benchmark" }),
-    );
+    const md = renderTrendCardMarkdown(makeItem({ trialRecipeSuggestion: "Run the benchmark" }));
     expect(md).toContain("## Quick Trial");
     expect(md).toContain("Run the benchmark");
   });
 
   it("contains Links section with URL", () => {
-    const md = renderTrendCardMarkdown(
-      makeItem({ url: "https://arxiv.org/abs/1234" }),
-    );
+    const md = renderTrendCardMarkdown(makeItem({ url: "https://arxiv.org/abs/1234" }));
     expect(md).toContain("## Links");
     expect(md).toContain("[Original](https://arxiv.org/abs/1234)");
   });
@@ -59,30 +52,22 @@ describe("renderTrendCardMarkdown", () => {
   });
 
   it("infers RAG infra angle from keywords", () => {
-    const md = renderTrendCardMarkdown(
-      makeItem({ title: "RAG vector embedding pipeline" }),
-    );
+    const md = renderTrendCardMarkdown(makeItem({ title: "RAG vector embedding pipeline" }));
     expect(md).toContain("RAG pipeline and vector search");
   });
 
   it("infers deployment infra angle from keywords", () => {
-    const md = renderTrendCardMarkdown(
-      makeItem({ title: "Deploy with kubernetes" }),
-    );
+    const md = renderTrendCardMarkdown(makeItem({ title: "Deploy with kubernetes" }));
     expect(md).toContain("Deployment and orchestration");
   });
 
   it("infers quantization infra angle from keywords", () => {
-    const md = renderTrendCardMarkdown(
-      makeItem({ title: "GGML quantization guide" }),
-    );
+    const md = renderTrendCardMarkdown(makeItem({ title: "GGML quantization guide" }));
     expect(md).toContain("Model compression and quantization");
   });
 
   it("infers fine-tuning infra angle from keywords", () => {
-    const md = renderTrendCardMarkdown(
-      makeItem({ title: "LoRA fine-tuning at scale" }),
-    );
+    const md = renderTrendCardMarkdown(makeItem({ title: "LoRA fine-tuning at scale" }));
     expect(md).toContain("Fine-tuning and training efficiency");
   });
 
@@ -109,10 +94,7 @@ describe("renderTrendCardMarkdown", () => {
 
 describe("renderAllCards", () => {
   it("joins multiple cards with --- separator", () => {
-    const items = [
-      makeItem({ title: "Card One" }),
-      makeItem({ title: "Card Two" }),
-    ];
+    const items = [makeItem({ title: "Card One" }), makeItem({ title: "Card Two" })];
     const result = renderAllCards(items);
     expect(result).toContain("# Card One");
     expect(result).toContain("# Card Two");

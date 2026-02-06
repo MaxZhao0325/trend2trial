@@ -70,17 +70,17 @@ npx trend2trial recipe run   ──→  loadRecipe() → validateCommand() → e
 
 ## Module Boundaries
 
-| Module | Responsibility | Dependencies |
-|--------|---------------|------------|
-| `packages/core/models` | Type definitions (TrendCard, TrendItem, Recipe, Registry) | None |
-| `packages/core/pipeline` | Trend fetching, dedup, ranking, rendering, writing | Node.js std lib, js-yaml (loader only) |
-| `packages/core/pipeline/adapters` | RSS + HackerNews data sources | Node.js fetch API |
-| `packages/core/trends` | Load trend cards from JSON, render to Markdown | Node.js std lib |
-| `packages/core/recipes` | Recipe loading, validation, execution, remote fetching | Node.js std lib, js-yaml |
-| `packages/cli` | CLI argument parsing, command dispatch, UI formatting | `trend2trial-core`, picocolors |
-| `apps/web` | Static site generation | `trend2trial-core` |
-| `data/trends/` | Raw trend data | Nothing (pure data) |
-| `recipes/` | Runnable trial projects + registry.json | Independent (run via core) |
+| Module                            | Responsibility                                            | Dependencies                           |
+| --------------------------------- | --------------------------------------------------------- | -------------------------------------- |
+| `packages/core/models`            | Type definitions (TrendCard, TrendItem, Recipe, Registry) | None                                   |
+| `packages/core/pipeline`          | Trend fetching, dedup, ranking, rendering, writing        | Node.js std lib, js-yaml (loader only) |
+| `packages/core/pipeline/adapters` | RSS + HackerNews data sources                             | Node.js fetch API                      |
+| `packages/core/trends`            | Load trend cards from JSON, render to Markdown            | Node.js std lib                        |
+| `packages/core/recipes`           | Recipe loading, validation, execution, remote fetching    | Node.js std lib, js-yaml               |
+| `packages/cli`                    | CLI argument parsing, command dispatch, UI formatting     | `trend2trial-core`, picocolors         |
+| `apps/web`                        | Static site generation                                    | `trend2trial-core`                     |
+| `data/trends/`                    | Raw trend data                                            | Nothing (pure data)                    |
+| `recipes/`                        | Runnable trial projects + registry.json                   | Independent (run via core)             |
 
 ## Pipeline Module (`packages/core/src/pipeline/`)
 

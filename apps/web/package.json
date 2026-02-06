@@ -8,5 +8,7 @@
   "dependencies": {
     "trend2trial-core": "workspace:*"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

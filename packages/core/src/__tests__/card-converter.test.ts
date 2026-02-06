@@ -54,60 +54,58 @@ describe("convertToTrendCard", () => {
   });
 
   it("infers rag category from keywords", () => {
-    const card = convertToTrendCard(
-      makeItem({ title: "RAG vector embedding search" }),
-    );
+    const card = convertToTrendCard(makeItem({ title: "RAG vector embedding search" }));
     expect(card.category).toBe("rag");
   });
 
   it("infers llmops category from keywords", () => {
-    const card = convertToTrendCard(
-      makeItem({ title: "Kubernetes deploy gateway" }),
-    );
+    const card = convertToTrendCard(makeItem({ title: "Kubernetes deploy gateway" }));
     expect(card.category).toBe("llmops");
   });
 
   it("defaults to serving for arxiv source when no keywords match", () => {
     const card = convertToTrendCard(
-      makeItem({ title: "Novel algorithm", summary: "New approach", tags: [], source: "arxiv-rss" }),
+      makeItem({
+        title: "Novel algorithm",
+        summary: "New approach",
+        tags: [],
+        source: "arxiv-rss",
+      }),
     );
     expect(card.category).toBe("serving");
   });
 
   it("defaults to llmops for non-arxiv source when no keywords match", () => {
     const card = convertToTrendCard(
-      makeItem({ title: "Novel algorithm", summary: "New approach", tags: [], source: "hackernews" }),
+      makeItem({
+        title: "Novel algorithm",
+        summary: "New approach",
+        tags: [],
+        source: "hackernews",
+      }),
     );
     expect(card.category).toBe("llmops");
   });
 
   it("infers paper source type from arxiv URL", () => {
-    const card = convertToTrendCard(
-      makeItem({ url: "https://arxiv.org/abs/2401.00001" }),
-    );
+    const card = convertToTrendCard(makeItem({ url: "https://arxiv.org/abs/2401.00001" }));
     expect(card.sources[0].type).toBe("paper");
   });
 
   it("infers repo source type from github URL", () => {
-    const card = convertToTrendCard(
-      makeItem({ url: "https://github.com/vllm-project/vllm" }),
-    );
+    const card = convertToTrendCard(makeItem({ url: "https://github.com/vllm-project/vllm" }));
     expect(card.sources[0].type).toBe("repo");
   });
 
   it("infers video source type from youtube URL", () => {
-    const card = convertToTrendCard(
-      makeItem({ url: "https://youtube.com/watch?v=abc" }),
-    );
+    const card = convertToTrendCard(makeItem({ url: "https://youtube.com/watch?v=abc" }));
     expect(card.sources[0].type).toBe("video");
   });
 
   it("infers release source type from release URL", () => {
     // Note: github.com is matched before /releases, so github release URLs
     // are classified as "repo". Test with a non-github release URL.
-    const card = convertToTrendCard(
-      makeItem({ url: "https://releases.example.com/v1.0/release" }),
-    );
+    const card = convertToTrendCard(makeItem({ url: "https://releases.example.com/v1.0/release" }));
     expect(card.sources[0].type).toBe("release");
   });
 
@@ -119,9 +117,7 @@ describe("convertToTrendCard", () => {
   });
 
   it("defaults to blog source type for other URLs", () => {
-    const card = convertToTrendCard(
-      makeItem({ url: "https://blog.example.com/post" }),
-    );
+    const card = convertToTrendCard(makeItem({ url: "https://blog.example.com/post" }));
     expect(card.sources[0].type).toBe("blog");
   });
 
@@ -155,10 +151,7 @@ describe("convertToTrendCard", () => {
 
 describe("convertToTrendCards", () => {
   it("maps array of TrendItems to TrendCards", () => {
-    const items = [
-      makeItem({ title: "Item One" }),
-      makeItem({ title: "Item Two" }),
-    ];
+    const items = [makeItem({ title: "Item One" }), makeItem({ title: "Item Two" })];
     const cards = convertToTrendCards(items);
     expect(cards).toHaveLength(2);
     expect(cards[0].title).toBe("Item One");

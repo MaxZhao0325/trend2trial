@@ -67,10 +67,7 @@ describe("loadTrendsFromDir", () => {
   it("skips cards failing validation", async () => {
     await writeFile(join(tempDir, "valid.json"), validCardJson());
     // Missing required fields
-    await writeFile(
-      join(tempDir, "invalid.json"),
-      JSON.stringify({ id: "", title: "" }),
-    );
+    await writeFile(join(tempDir, "invalid.json"), JSON.stringify({ id: "", title: "" }));
 
     const result = await loadTrendsFromDir(tempDir);
     expect(result).toHaveLength(1);
@@ -82,10 +79,7 @@ describe("loadTrendsFromDir", () => {
       join(tempDir, "serving.json"),
       validCardJson({ id: "srv", category: "serving" }),
     );
-    await writeFile(
-      join(tempDir, "rag.json"),
-      validCardJson({ id: "rag-card", category: "rag" }),
-    );
+    await writeFile(join(tempDir, "rag.json"), validCardJson({ id: "rag-card", category: "rag" }));
 
     const result = await loadTrendsFromDir(tempDir, { category: "rag" });
     expect(result).toHaveLength(1);

@@ -15,9 +15,7 @@ export function getDefaultFetcherOptions(): FetcherOptions {
   return {
     repo: process.env.T2T_REPO ?? "MaxZhao0325/trend2trial",
     ref: process.env.T2T_REF ?? "main",
-    cacheDir:
-      process.env.T2T_CACHE_DIR ??
-      join(homedir(), ".trend2trial", "cache"),
+    cacheDir: process.env.T2T_CACHE_DIR ?? join(homedir(), ".trend2trial", "cache"),
     registryTtlMs: 5 * 60 * 1000,
   };
 }
@@ -114,9 +112,7 @@ export function validateRegistry(data: unknown): Registry {
     }
     for (const f of e.files) {
       if (typeof f !== "string" && (typeof f !== "object" || f === null)) {
-        throw new Error(
-          `Invalid registry entry: invalid file entry in recipe "${String(e.name)}"`,
-        );
+        throw new Error(`Invalid registry entry: invalid file entry in recipe "${String(e.name)}"`);
       }
     }
   }
@@ -181,7 +177,9 @@ export async function fetchRecipe(
 
   const hasLegacyFiles = entry.files.some((f) => typeof f === "string");
   if (hasLegacyFiles) {
-    console.warn(`Warning: recipe "${entry.name}" uses legacy string[] files format without SHA256 checksums`);
+    console.warn(
+      `Warning: recipe "${entry.name}" uses legacy string[] files format without SHA256 checksums`,
+    );
   }
 
   try {
@@ -189,11 +187,7 @@ export async function fetchRecipe(
       const { path: filePath, sha256: expectedHash } = resolveFileEntry(file);
       validateFilePath(filePath, recipeDir);
 
-      const url = rawUrl(
-        opts.repo,
-        opts.ref,
-        `recipes/${entry.name}/${filePath}`,
-      );
+      const url = rawUrl(opts.repo, opts.ref, `recipes/${entry.name}/${filePath}`);
       const res = await fetchWithRetry(url);
       const content = await res.text();
 

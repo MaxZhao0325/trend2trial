@@ -146,23 +146,16 @@ describe("tasks.yaml validation", () => {
   });
 
   it("throws for missing tasks array", async () => {
-    const yaml = [
-      "name: test-recipe",
-      "title: Test Recipe",
-      "category: serving",
-    ].join("\n");
+    const yaml = ["name: test-recipe", "title: Test Recipe", "category: serving"].join("\n");
     await writeTasks(tempDir, yaml);
     await writeRubric(tempDir, VALID_RUBRIC);
     await expect(loadRecipe(tempDir)).rejects.toThrow("'tasks' must be a non-empty array");
   });
 
   it("throws for empty tasks array", async () => {
-    const yaml = [
-      "name: test-recipe",
-      "title: Test Recipe",
-      "category: serving",
-      "tasks: []",
-    ].join("\n");
+    const yaml = ["name: test-recipe", "title: Test Recipe", "category: serving", "tasks: []"].join(
+      "\n",
+    );
     await writeTasks(tempDir, yaml);
     await writeRubric(tempDir, VALID_RUBRIC);
     await expect(loadRecipe(tempDir)).rejects.toThrow("'tasks' must be a non-empty array");
@@ -281,11 +274,7 @@ describe("rubric.yaml validation", () => {
   });
 
   it("throws for null metric entry", async () => {
-    const rubric = [
-      "metrics:",
-      "  - null",
-      'pass_criteria: "all pass"',
-    ].join("\n");
+    const rubric = ["metrics:", "  - null", 'pass_criteria: "all pass"'].join("\n");
     await writeTasks(tempDir, VALID_TASKS);
     await writeRubric(tempDir, rubric);
     await expect(loadRecipe(tempDir)).rejects.toThrow("metric[0] must be an object");
@@ -353,10 +342,7 @@ describe("rubric.yaml validation", () => {
   });
 
   it("allows empty metrics array", async () => {
-    const rubric = [
-      "metrics: []",
-      'pass_criteria: "manual review"',
-    ].join("\n");
+    const rubric = ["metrics: []", 'pass_criteria: "manual review"'].join("\n");
     await writeTasks(tempDir, VALID_TASKS);
     await writeRubric(tempDir, rubric);
     const recipe = await loadRecipe(tempDir);

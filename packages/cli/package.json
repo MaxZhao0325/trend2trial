@@ -8,7 +8,14 @@
     "url": "https://github.com/MaxZhao0325/trend2trial.git",
     "directory": "packages/cli"
   },
-  "keywords": ["ai-infra", "serving", "rag", "llmops", "benchmark", "recipe"],
+  "keywords": [
+    "ai-infra",
+    "serving",
+    "rag",
+    "llmops",
+    "benchmark",
+    "recipe"
+  ],
   "license": "MIT",
   "bin": {
     "trend2trial": "./bin/trend2trial.js"
@@ -21,5 +28,8 @@
     "picocolors": "^1.1.0",
     "trend2trial-core": "workspace:*"
   },
-  "files": ["dist", "bin"]
+  "files": [
+    "dist",
+    "bin"
+  ]
 }

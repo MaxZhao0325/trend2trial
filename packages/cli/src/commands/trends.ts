@@ -1,14 +1,7 @@
 import { resolve } from "node:path";
 import { fetchTrendCards, writeTrends } from "trend2trial-core";
 import type { TrendCard } from "trend2trial-core";
-import {
-  pathStr,
-  success,
-  header,
-  dim,
-  categoryBadge,
-  createSpinner,
-} from "../ui.js";
+import { pathStr, success, header, dim, categoryBadge, createSpinner } from "../ui.js";
 
 export interface TrendsFetchFlags {
   json?: boolean;
@@ -18,9 +11,7 @@ export interface TrendsFetchFlags {
 export async function trendsFetch(flags: TrendsFetchFlags = {}): Promise<void> {
   const spinner = createSpinner("Fetching trends from adapters...");
   const cards = await fetchTrendCards();
-  spinner.stop(
-    `Fetched ${header(String(cards.length))} trend cards`,
-  );
+  spinner.stop(`Fetched ${header(String(cards.length))} trend cards`);
 
   if (flags.output) {
     const absOutput = resolve(flags.output);
@@ -54,7 +45,9 @@ function printTrendsTable(cards: TrendCard[]): void {
   for (const c of cards) {
     console.log(
       String(c.relevanceScore).padEnd(8) +
-        categoryBadge(c.category).padEnd(12 + (categoryBadge(c.category).length - c.category.length)) +
+        categoryBadge(c.category).padEnd(
+          12 + (categoryBadge(c.category).length - c.category.length),
+        ) +
         dim(c.date).padEnd(13 + (dim(c.date).length - c.date.length)) +
         c.title,
     );

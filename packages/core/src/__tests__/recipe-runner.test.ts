@@ -35,10 +35,7 @@ describe("runRecipe", () => {
 
     await writeFile(
       join(tempDir, "rubric.yaml"),
-      [
-        "metrics: []",
-        'pass_criteria: "all steps pass"',
-      ].join("\n"),
+      ["metrics: []", 'pass_criteria: "all steps pass"'].join("\n"),
     );
 
     const result = await runRecipe(tempDir, { confirmed: true });
@@ -68,10 +65,7 @@ describe("runRecipe", () => {
 
     await writeFile(
       join(tempDir, "rubric.yaml"),
-      [
-        "metrics: []",
-        'pass_criteria: "none"',
-      ].join("\n"),
+      ["metrics: []", 'pass_criteria: "none"'].join("\n"),
     );
 
     const result = await runRecipe(tempDir, { confirmed: true });
@@ -96,10 +90,7 @@ describe("runRecipe", () => {
 
     await writeFile(
       join(tempDir, "rubric.yaml"),
-      [
-        "metrics: []",
-        'pass_criteria: "none"',
-      ].join("\n"),
+      ["metrics: []", 'pass_criteria: "none"'].join("\n"),
     );
 
     const result = await runRecipe(tempDir, { confirmed: true });

@@ -46,17 +46,18 @@ trend2trial/
 
 ## CLI Commands
 
-| Command | Description |
-|---------|-------------|
-| `trend2trial build` | Generate Markdown trend cards from data |
-| `trend2trial recipe list` | List all available recipes |
-| `trend2trial recipe init <name> <dest>` | Initialize a recipe into a working directory |
-| `trend2trial recipe run <dest> [--yes] [--no-fail-fast]` | Run a recipe and generate REPORT.md |
-| `trend2trial trends fetch [--json] [--output <path>]` | Fetch latest trends from all adapters |
-| `trend2trial --help` | Show help message |
-| `trend2trial --version` | Show version number |
+| Command                                                  | Description                                  |
+| -------------------------------------------------------- | -------------------------------------------- |
+| `trend2trial build`                                      | Generate Markdown trend cards from data      |
+| `trend2trial recipe list`                                | List all available recipes                   |
+| `trend2trial recipe init <name> <dest>`                  | Initialize a recipe into a working directory |
+| `trend2trial recipe run <dest> [--yes] [--no-fail-fast]` | Run a recipe and generate REPORT.md          |
+| `trend2trial trends fetch [--json] [--output <path>]`    | Fetch latest trends from all adapters        |
+| `trend2trial --help`                                     | Show help message                            |
+| `trend2trial --version`                                  | Show version number                          |
 
 **Flags:**
+
 - `--yes` / `-y` — Skip confirmation prompt for recipe run
 - `--no-fail-fast` — Continue running steps after a failure
 - `--json` — Output trends as JSON (trends fetch only)
@@ -65,11 +66,11 @@ When running from a cloned repo, use `node packages/cli/dist/main.js` in place o
 
 ## Recipes
 
-| Recipe | Category | Description |
-|--------|----------|-------------|
-| `serving-latency` | Serving | Mock HTTP server benchmark — measure p95/p99 latency and throughput |
-| `rag-starter` | RAG | In-memory TF-IDF search over sample docs with hit rate evaluation |
-| `llm-observability-starter` | LLMOps | Mock LLM call chain with structured JSON tracing |
+| Recipe                      | Category | Description                                                         |
+| --------------------------- | -------- | ------------------------------------------------------------------- |
+| `serving-latency`           | Serving  | Mock HTTP server benchmark — measure p95/p99 latency and throughput |
+| `rag-starter`               | RAG      | In-memory TF-IDF search over sample docs with hit rate evaluation   |
+| `llm-observability-starter` | LLMOps   | Mock LLM call chain with structured JSON tracing                    |
 
 Each recipe uses only Node.js built-ins — no additional dependencies needed.
 
@@ -82,22 +83,22 @@ The CLI is designed to work in two modes:
 
 Environment variables for customization:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `T2T_REPO` | `MaxZhao0325/trend2trial` | GitHub repo for remote fetching |
-| `T2T_REF` | `main` | Git ref to fetch from |
-| `T2T_CACHE_DIR` | `~/.trend2trial/cache` | Local cache directory |
+| Variable        | Default                   | Description                     |
+| --------------- | ------------------------- | ------------------------------- |
+| `T2T_REPO`      | `MaxZhao0325/trend2trial` | GitHub repo for remote fetching |
+| `T2T_REF`       | `main`                    | Git ref to fetch from           |
+| `T2T_CACHE_DIR` | `~/.trend2trial/cache`    | Local cache directory           |
 
 ## Development
 
-| Command | Description |
-|---------|-------------|
-| `pnpm install` | Install all dependencies |
-| `pnpm build` | Build all packages |
-| `pnpm test` | Run unit tests (vitest) |
+| Command                   | Description                    |
+| ------------------------- | ------------------------------ |
+| `pnpm install`            | Install all dependencies       |
+| `pnpm build`              | Build all packages             |
+| `pnpm test`               | Run unit tests (vitest)        |
 | `pnpm test -- --coverage` | Run tests with coverage report |
-| `pnpm lint` | Run ESLint |
-| `pnpm format` | Format code with Prettier |
+| `pnpm lint`               | Run ESLint                     |
+| `pnpm format`             | Format code with Prettier      |
 
 ## Contributing
 

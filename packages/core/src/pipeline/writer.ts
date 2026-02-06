@@ -62,10 +62,7 @@ async function loadExistingEnvelope(path: string): Promise<TrendsEnvelope | null
   }
 }
 
-export async function writeTrends(
-  cards: TrendCard[],
-  outputPath: string,
-): Promise<TrendsEnvelope> {
+export async function writeTrends(cards: TrendCard[], outputPath: string): Promise<TrendsEnvelope> {
   const existing = await loadExistingEnvelope(outputPath);
   const existingCards = existing?.cards ?? [];
   const mergedCards = mergeCards(existingCards, cards);
@@ -79,10 +76,7 @@ export async function writeTrends(
   const json = JSON.stringify(envelope, null, 2) + "\n";
 
   // Atomic write: write to temp file then rename
-  const tmpPath = join(
-    dirname(outputPath),
-    `.trends-${randomBytes(4).toString("hex")}.tmp`,
-  );
+  const tmpPath = join(dirname(outputPath), `.trends-${randomBytes(4).toString("hex")}.tmp`);
   await writeFile(tmpPath, json, "utf-8");
   await rename(tmpPath, outputPath);
 
